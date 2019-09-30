@@ -585,8 +585,8 @@ PACKAGE_STRING='vscpworks 13.1.1'
 PACKAGE_BUGREPORT='akhe@grodansparadis.com'
 PACKAGE_URL=''
 
-ac_unique_file="canalsuperwrapper.cpp"
-ac_unique_file="canalsuperwrapper.cpp"
+ac_unique_file="vscpworks/bootdevice.cpp"
+ac_unique_file="vscpworks/bootdevice.cpp"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -624,7 +624,6 @@ ac_includes_default="\
 #endif"
 
 ac_subst_vars='LTLIBOBJS
-PROJ_SUBDIRS_GUI
 PROJ_SUBDIRS
 RPI
 VSCPDIR
@@ -711,8 +710,6 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 enable_debug
-enable_rpi
-enable_static
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1350,8 +1347,6 @@ Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-debug@<:@=no@:>@     compile with debugging; one of yes/info/profile/no
-  --enable-rpi         Build Raspberry Pi specific stuff (default disabled)
-  --enable-static         static build of wxWidgets (default shared)
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -4463,7 +4458,7 @@ _ACEOF
   LIBS="-lz $LIBS"
 
 fi
-)
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for SSL_free in -lssl" >&5
 $as_echo_n "checking for SSL_free in -lssl... " >&6; }
 if ${ac_cv_lib_ssl_SSL_free+:} false; then :
@@ -6570,68 +6565,6 @@ fi
 
 PROJ_SUBDIRS="vscpworks "
 
-@%:@ Check whether --enable-rpi was given.
-if test "${enable_rpi+set}" = set; then :
-  enableval=$enable_rpi; vscp_rpi=yes
-else
-  vscp_rpi=no
-fi
-
-
-test "${vscp_rpi}" == "yes"
-if test "${vscp_rpi}" = yes ; then
-    PROJ_SUBDIRS+=" src/vscp/drivers/level2/rpigpio/linux\
-    src/vscp/drivers/level2/rpilcd/linux\
-    src/vscp/drivers/level2/rpimax6675/linux"
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for wiringPiSetup in -lwiringPi" >&5
-$as_echo_n "checking for wiringPiSetup in -lwiringPi... " >&6; }
-if ${ac_cv_lib_wiringPi_wiringPiSetup+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lwiringPi  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char wiringPiSetup ();
-int
-main ()
-{
-return wiringPiSetup ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_wiringPi_wiringPiSetup=yes
-else
-  ac_cv_lib_wiringPi_wiringPiSetup=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_wiringPi_wiringPiSetup" >&5
-$as_echo "$ac_cv_lib_wiringPi_wiringPiSetup" >&6; }
-if test "x$ac_cv_lib_wiringPi_wiringPiSetup" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-@%:@define HAVE_LIBWIRINGPI 1
-_ACEOF
-
-  LIBS="-lwiringPi $LIBS"
-
-fi
-
-fi
-
-
-PROJ_SUBDIRS_GUI="src/vscp/vscpworks"
 
 
 
@@ -6644,74 +6577,15 @@ CFLAGS+=" -DOPENSSL_API_1_0"
 fi
 
 
-@%:@ Check whether --enable-static was given.
-if test "${enable_static+set}" = set; then :
-  enableval=$enable_static; vscp_static=yes
-else
-  vscp_static=no
-fi
 
 
 
-AM_OPTIONS_WXCONFIG
-reqwx=3.0.0
 
-if test "${ax_enable_debug}" = yes ; then
-     echo 'checking for debug unicode wx-libs ...'
-     AM_PATH_WXCONFIG($reqwx, wxWin=1, wxWin=0, --unicode=yes --debug=yes)
-else
-     echo 'checking for unicode wx-libs ...'
-     AM_PATH_WXCONFIG($reqwx, wxWin=1, wxWin=0, --unicode=yes --debug=no)
-fi
-if test "$wxWin" != 1; then
-    as_fn_error $? "
-        wxWidgets must be installed on your system.
 
-        Please check that wx-config is in path, the directory
-        where wxWidgets libraries are installed (returned by
-        'wx-config --libs' or 'wx-config --static --libs' command)
-        is in LD_LIBRARY_PATH or equivalent variable and
-        wxWidgets version is $reqwx or above.
-    " "$LINENO" 5
-fi
 
-CPPFLAGS="$CPPFLAGS $WX_CPPFLAGS"
-CXXFLAGS="$CXXFLAGS $WX_CXXFLAGS_ONLY"
-CFLAGS="$CFLAGS $WX_CFLAGS_ONLY"
-LIBS="$LIBS $WX_LIBS"
-
-WX_BASENAME=`$WX_CONFIG_WITH_ARGS --basename`
-vscp_gui=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for wx_gtk2* or wx_gtk3* wxWidgets libs" >&5
-$as_echo_n "checking for wx_gtk2* or wx_gtk3* wxWidgets libs... " >&6; }
-if sh -c "$WX_CONFIG_WITH_ARGS --basename" 2>/dev/null | grep -e wx_gtk2 -e wx_gtk3 >/dev/null; then
-        PROJ_SUBDIRS="$PROJ_SUBDIRS $PROJ_SUBDIRS_GUI"
-    vscp_gui=yes
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: Found; building GUI apps" >&5
-$as_echo "Found; building GUI apps" >&6; }
-fi
 
 EXTRALIBS="${EXTRALIBS} ${LIBS}"
 
-if test "${vscp_debug}" = yes ; then
-WXBASE_CPPFLAGS=`$WX_CONFIG_WITH_ARGS -debug --cppflags base`
-WXBASE_CXXFLAGS=`$WX_CONFIG_WITH_ARGS --debug --cxxflags base`
-WXBASE_CFLAGS=`$WX_CONFIG_WITH_ARGS --debug --cflags base`
-WXBASE_LIBS=`$WX_CONFIG_WITH_ARGS --debug --libs base xml net`
-WXGTK_CPPFLAGS=`$WX_CONFIG_WITH_ARGS -debug --cppflags`
-WXGTK_CXXFLAGS=`$WX_CONFIG_WITH_ARGS --debug --cxxflags`
-WXGTK_CFLAGS=`$WX_CONFIG_WITH_ARGS --debug --cflags`
-WXGTK_LIBS=`$WX_CONFIG_WITH_ARGS --debug --libs`
-else
-WXBASE_CPPFLAGS=`$WX_CONFIG_WITH_ARGS --cppflags base`
-WXBASE_CXXFLAGS=`$WX_CONFIG_WITH_ARGS --cxxflags base`
-WXBASE_CFLAGS=`$WX_CONFIG_WITH_ARGS --cflags base`
-WXBASE_LIBS=`$WX_CONFIG_WITH_ARGS --libs base xml net`
-WXGTK_CPPFLAGS=`$WX_CONFIG_WITH_ARGS --cppflags`
-WXGTK_CXXFLAGS=`$WX_CONFIG_WITH_ARGS --cxxflags`
-WXGTK_CFLAGS=`$WX_CONFIG_WITH_ARGS --cflags`
-WXGTK_LIBS=`$WX_CONFIG_WITH_ARGS  --libs`
-fi
 
 if test "${vscp_static}" = yes ; then
 STATIC="yes"
@@ -8015,7 +7889,6 @@ fi
 
 
 echo   "LIBS          : ${LIBS}"
-echo   "WXLIBS        : ${WXLIBS}"
 echo   "EXTRALIBS     : ${EXTRALIBS}"
 echo   "EXTRACPPFLAGS : ${CPPFLAGS}"
 echo   "EXTRACXXFLAGS : ${CXXFLAGS}"

@@ -9,23 +9,23 @@ VSCP_PROJ_BASE_DIR=/srv/vscp
 prefix = /usr/local
 exec_prefix = ${prefix}
 INSTALL = /usr/bin/install -c
-top_srcdir = ../../..
+top_srcdir = ..
 top_wxsrcdir = @top_wxsrcdir@
-top_builddir = ../../..
+top_builddir = ..
 top_wxbuilddir = @top_wxbuilddir@
 
 # wxBase flags and libs
-WXBASE_CPPFLAGS = -I/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0 -I/usr/include/wx-3.0 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -DwxUSE_GUI=0
-WXBASE_CXXFLAGS = -I/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0 -I/usr/include/wx-3.0 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -DwxUSE_GUI=0 -pthread
-WXBASE_CFLAGS = -I/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0 -I/usr/include/wx-3.0 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -DwxUSE_GUI=0 -pthread
-WXBASE_LIBS = -L/usr/lib/x86_64-linux-gnu -pthread   -lwx_baseu-3.0 -lwx_baseu_xml-3.0 -lwx_baseu_net-3.0 
+WXBASE_CPPFLAGS = 
+WXBASE_CXXFLAGS = 
+WXBASE_CFLAGS = 
+WXBASE_LIBS = 
 WXBASE_STATIC_LIBS = 
 
 # wxGTK flags and libs
-WXGTK_CPPFLAGS = -I/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0 -I/usr/include/wx-3.0 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__
-WXGTK_CXXFLAGS = -I/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0 -I/usr/include/wx-3.0 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread
-WXGTK_CFLAGS = -I/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0 -I/usr/include/wx-3.0 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread
-WXGTK_LIBS = -L/usr/lib/x86_64-linux-gnu -pthread   -lwx_gtk2u_xrc-3.0 -lwx_gtk2u_html-3.0 -lwx_gtk2u_qa-3.0 -lwx_gtk2u_adv-3.0 -lwx_gtk2u_core-3.0 -lwx_baseu_xml-3.0 -lwx_baseu_net-3.0 -lwx_baseu-3.0 
+WXGTK_CPPFLAGS = 
+WXGTK_CXXFLAGS = 
+WXGTK_CFLAGS = 
+WXGTK_LIBS = 
 WXGTK_STATIC_LIBS = 
 
 # get version from the version file
@@ -38,10 +38,10 @@ WARNINGS_HARD = -Werror -Wall -Wextra -pedantic -Wcast-align -Wcast-qual -Wctor-
 WARNINGS_MEDIUM = -Wformat-security -Wformat=2
 
 MONGOOSE_CFLAGS = -DMG_ENABLE_THREADS -DMG_ENABLE_IPV6 -DMG_ENABLE_SSL  -DMG_ENABLE_GETADDRINFO
-CFLAGS = -std=c99  -g -O0 -DOPENSSL_API_1_1 -I/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0 -I/usr/include/wx-3.0 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread -DCBC -I../common -I../../common
+CFLAGS = -std=c99  -DOPENSSL_API_1_1  -DCBC -I../common -I../../common
 
-CXXFLAGS = -std=c++11  -g -O0 -I/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0 -I/usr/include/wx-3.0 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -pthread
-CPPFLAGS =  -I/usr/lib/x86_64-linux-gnu/wx/include/gtk2-unicode-3.0 -I/usr/include/wx-3.0 -D_FILE_OFFSET_BITS=64 -DWXUSINGDLL -D__WXGTK__ -DwxUSE_GUI=1 $(MONGOOSE_CFLAGS) -I. -I../common -I../../common
+CXXFLAGS = -std=c++11  
+CPPFLAGS =   -DwxUSE_GUI=1 $(MONGOOSE_CFLAGS) -I. -I../common -I../../common
 LDFLAGS = 
 LDFLAGS = 
 
@@ -49,7 +49,7 @@ EXTRALIBS =  -lexpat -lssl -lz -lrt -lm -lcrypto -lpthread -ldl
 ifeq ($(STATIC),yes)
 EXTRALIBS += 
 else
-EXTRALIBS += -L/usr/lib/x86_64-linux-gnu -pthread   -lwx_gtk2u_xrc-3.0 -lwx_gtk2u_html-3.0 -lwx_gtk2u_qa-3.0 -lwx_gtk2u_adv-3.0 -lwx_gtk2u_core-3.0 -lwx_baseu_xml-3.0 -lwx_baseu_net-3.0 -lwx_baseu-3.0 
+EXTRALIBS += 
 endif
 
 STRIP = strip

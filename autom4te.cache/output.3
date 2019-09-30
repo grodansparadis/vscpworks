@@ -585,8 +585,8 @@ PACKAGE_STRING='vscpworks 13.1.1'
 PACKAGE_BUGREPORT='akhe@grodansparadis.com'
 PACKAGE_URL=''
 
-ac_unique_file="canalsuperwrapper.cpp"
-ac_unique_file="canalsuperwrapper.cpp"
+ac_unique_file="vscpworks/frmscanfordevices.cpp"
+ac_unique_file="vscpworks/frmscanfordevices.cpp"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -634,7 +634,6 @@ WX_CXXFLAGS
 WX_CFLAGS
 WX_CPPFLAGS
 WX_CONFIG_PATH
-PROJ_SUBDIRS_GUI
 PROJ_SUBDIRS
 RPI
 VSCPDIR
@@ -721,7 +720,6 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 enable_debug
-enable_rpi
 enable_static
 with_wxdir
 with_wx_config
@@ -1364,7 +1362,6 @@ Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-debug@<:@=no@:>@     compile with debugging; one of yes/info/profile/no
-  --enable-rpi         Build Raspberry Pi specific stuff (default disabled)
   --enable-static         static build of wxWidgets (default shared)
 
 Optional Packages:
@@ -4532,51 +4529,6 @@ _ACEOF
 
 fi
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for XML_ParserCreate in -lexpat" >&5
-$as_echo_n "checking for XML_ParserCreate in -lexpat... " >&6; }
-if ${ac_cv_lib_expat_XML_ParserCreate+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lexpat  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char XML_ParserCreate ();
-int
-main ()
-{
-return XML_ParserCreate ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_expat_XML_ParserCreate=yes
-else
-  ac_cv_lib_expat_XML_ParserCreate=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_expat_XML_ParserCreate" >&5
-$as_echo "$ac_cv_lib_expat_XML_ParserCreate" >&6; }
-if test "x$ac_cv_lib_expat_XML_ParserCreate" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-@%:@define HAVE_LIBEXPAT 1
-_ACEOF
-
-  LIBS="-lexpat $LIBS"
-
-fi
-
 
 # Checks for header files.
 ac_header_dirent=no
@@ -6593,69 +6545,6 @@ fi
 
 PROJ_SUBDIRS="vscpworks "
 
-@%:@ Check whether --enable-rpi was given.
-if test "${enable_rpi+set}" = set; then :
-  enableval=$enable_rpi; vscp_rpi=yes
-else
-  vscp_rpi=no
-fi
-
-
-test "${vscp_rpi}" == "yes"
-if test "${vscp_rpi}" = yes ; then
-    PROJ_SUBDIRS+=" src/vscp/drivers/level2/rpigpio/linux\
-    src/vscp/drivers/level2/rpilcd/linux\
-    src/vscp/drivers/level2/rpimax6675/linux"
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for wiringPiSetup in -lwiringPi" >&5
-$as_echo_n "checking for wiringPiSetup in -lwiringPi... " >&6; }
-if ${ac_cv_lib_wiringPi_wiringPiSetup+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lwiringPi  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char wiringPiSetup ();
-int
-main ()
-{
-return wiringPiSetup ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_wiringPi_wiringPiSetup=yes
-else
-  ac_cv_lib_wiringPi_wiringPiSetup=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_wiringPi_wiringPiSetup" >&5
-$as_echo "$ac_cv_lib_wiringPi_wiringPiSetup" >&6; }
-if test "x$ac_cv_lib_wiringPi_wiringPiSetup" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-@%:@define HAVE_LIBWIRINGPI 1
-_ACEOF
-
-  LIBS="-lwiringPi $LIBS"
-
-fi
-
-fi
-
-
-PROJ_SUBDIRS_GUI="src/vscp/vscpworks"
-
 
 
 if sh -c "openssl version | cut -d' ' -f 2 " 2>/dev/null | grep 1.1. >/dev/null; then
@@ -7196,13 +7085,10 @@ CFLAGS="$CFLAGS $WX_CFLAGS_ONLY"
 LIBS="$LIBS $WX_LIBS"
 
 WX_BASENAME=`$WX_CONFIG_WITH_ARGS --basename`
-vscp_gui=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for wx_gtk2* or wx_gtk3* wxWidgets libs" >&5
 $as_echo_n "checking for wx_gtk2* or wx_gtk3* wxWidgets libs... " >&6; }
 if sh -c "$WX_CONFIG_WITH_ARGS --basename" 2>/dev/null | grep -e wx_gtk2 -e wx_gtk3 >/dev/null; then
-        PROJ_SUBDIRS="$PROJ_SUBDIRS $PROJ_SUBDIRS_GUI"
-    vscp_gui=yes
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: Found; building GUI apps" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: Found; building GUI apps" >&5
 $as_echo "Found; building GUI apps" >&6; }
 fi
 
@@ -7237,11 +7123,6 @@ fi
 
 ac_config_files="$ac_config_files Makefile m4/Makefile vscpworks/Makefile"
 
-
-if test "${vscp_rpi}" = yes ; then
-ac_config_files="$ac_config_files src/vscp/drivers/level2/rpigpio/linux/Makefile src/vscp/drivers/level2/rpilcd/linux/Makefile src/vscp/drivers/level2/rpimax6675/linux/Makefile"
-
-fi
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -7939,9 +7820,6 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "m4/Makefile") CONFIG_FILES="$CONFIG_FILES m4/Makefile" ;;
     "vscpworks/Makefile") CONFIG_FILES="$CONFIG_FILES vscpworks/Makefile" ;;
-    "src/vscp/drivers/level2/rpigpio/linux/Makefile") CONFIG_FILES="$CONFIG_FILES src/vscp/drivers/level2/rpigpio/linux/Makefile" ;;
-    "src/vscp/drivers/level2/rpilcd/linux/Makefile") CONFIG_FILES="$CONFIG_FILES src/vscp/drivers/level2/rpilcd/linux/Makefile" ;;
-    "src/vscp/drivers/level2/rpimax6675/linux/Makefile") CONFIG_FILES="$CONFIG_FILES src/vscp/drivers/level2/rpimax6675/linux/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
@@ -8529,21 +8407,12 @@ $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
 
-echo   "LIBS          : ${LIBS}"
-echo   "WXLIBS        : ${WXLIBS}"
-echo   "EXTRALIBS     : ${EXTRALIBS}"
-echo   "EXTRACPPFLAGS : ${CPPFLAGS}"
-echo   "EXTRACXXFLAGS : ${CXXFLAGS}"
-echo   "EXTRACFLAGS   : ${CFLAGS}"
-echo   "PROJ_SUBDIRS  : ${PROJ_SUBDIRS}"
-
 echo
 echo   "           VSCP configuration"
 echo   "--------------------------------------------"
 echo   "VSCP version          : `sh echo-version` (${PACKAGE_VERSION})"
 echo   "System                : `uname -a` "
 echo   "Architecture          : $(arch)"
-echo   "VSCP GUI Build        : ${vscp_gui}"
 echo   "VSCP install dir      : ${VSCPDIR}"
 
 if test "${ax_enable_debug}" = "yes"
@@ -8565,6 +8434,14 @@ if test "${vscp_rpi}" = yes ; then
 else
    echo   "Raspberry Pi build    : no"
 fi
+
+echo   "LIBS          : ${LIBS}"
+echo   "WXLIBS        : ${WXLIBS}"
+echo   "EXTRALIBS     : ${EXTRALIBS}"
+echo   "EXTRACPPFLAGS : ${CPPFLAGS}"
+echo   "EXTRACXXFLAGS : ${CXXFLAGS}"
+echo   "EXTRACFLAGS   : ${CFLAGS}"
+echo   "PROJ_SUBDIRS  : ${PROJ_SUBDIRS}"
 
 printf "
 You can tune the compiler flags in vscp-config.
