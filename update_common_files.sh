@@ -21,6 +21,10 @@ cp ${VSCP_PATH}/src/common/vscpbase64.h .
 cp ${VSCP_PATH}/src/common/vscpbase64.c .
 cp ${VSCP_PATH}/src/common/vscp_aes.h .
 cp ${VSCP_PATH}/src/common/vscp_aes.c .
+cp ${VSCP_PATH}/src/common/mongoose.h .
+cp ${VSCP_PATH}/src/common/mongoose.c .
+cp ${VSCP_PATH}/src/common/sqlite3.h .
+cp ${VSCP_PATH}/src/common/sqlite3.c .
 cp ${VSCP_PATH}/src/common/json.hpp .
 cp -r ${VSCP_PATH}/src/common/nlohmann/ .
 cd ..
@@ -41,6 +45,25 @@ cp ${VSCP_PATH}/src/vscp/common/vscphelper.h .
 cp ${VSCP_PATH}/src/vscp/common/vscpdatetime.cpp .
 cp ${VSCP_PATH}/src/vscp/common/vscpdatetime.h .
 cp ${VSCP_PATH}/src/vscp/common/mdf.h .
+cp ${VSCP_PATH}/src/vscp/common/mdf.cpp .
+cp ${VSCP_PATH}/src/vscp/common/register.h .
+cp ${VSCP_PATH}/src/vscp/common/register.cpp .
+cp ${VSCP_PATH}/src/vscp/common/devicelist.h .
+cp ${VSCP_PATH}/src/vscp/common/devicelist.cpp .
+cp ${VSCP_PATH}/src/vscp/common/dllwrapper.h .
+cp ${VSCP_PATH}/src/vscp/common/dllwrapper.cpp .
 cp ${VSCP_PATH}/src/vscp/common/canalsuperwrapper.cpp .
 cp ${VSCP_PATH}/src/vscp/common/canalsuperwrapper.h .
+cp ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.h .
+cp ${VSCP_PATH}/src/vscp/common/vscpremotetcpif.cpp .
+cp ${VSCP_PATH}/src/vscp/common/canalconfobj.h .
+cp ${VSCP_PATH}/src/vscp/common/canalconfobj.cpp .
+cp ${VSCP_PATH}/src/vscp/common/vscpmulticast.h .
+cp ${VSCP_PATH}/src/vscp/common/vscpmulticast.cpp .
+cp ${VSCP_PATH}/src/vscp/common/knownnodes.h .
+cp ${VSCP_PATH}/src/vscp/common/knownnodes.cpp .
+cp ${VSCP_PATH}/src/vscp/common/vscpeventhelper.h .
+cp ${VSCP_PATH}/src/vscp/common/vscpeventhelper.cpp .
+cp ${VSCP_PATH}/src/vscp/common/devitem.h .
+cp ${VSCP_PATH}/src/vscp/common/canaldlldef.h .
 cd ..
