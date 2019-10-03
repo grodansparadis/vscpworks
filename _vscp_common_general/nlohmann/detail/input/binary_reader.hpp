@@ -241,7 +241,7 @@ class binary_reader
 
             case 0x08: // boolean
             {
-                return sax->boolean(get() != 0);
+                return sax->boolean(static_cast<bool>(get()));
             }
 
             case 0x0A: // null
@@ -264,7 +264,7 @@ class binary_reader
             default: // anything else not supported (yet)
             {
                 char cr[3];
-                (std::snprintf)(cr, sizeof(cr), "%.2hhX", static_cast<unsigned char>(element_type));
+                snprintf(cr, sizeof(cr), "%.2hhX", static_cast<unsigned char>(element_type));
                 return sax->parse_error(element_type_parse_position, std::string(cr), parse_error::create(114, element_type_parse_position, "Unsupported BSON record type 0x" + std::string(cr)));
             }
         }
@@ -300,10 +300,7 @@ class binary_reader
 
             if (not is_array)
             {
-                if (not sax->key(key))
-                {
-                    return false;
-                }
+                sax->key(key);
             }
 
             if (JSON_UNLIKELY(not parse_bson_element_internal(element_type, element_type_parse_position)))
@@ -1921,7 +1918,7 @@ class binary_reader
     std::string get_token_string() const
     {
         char cr[3];
-        (std::snprintf)(cr, 3, "%.2hhX", static_cast<unsigned char>(current));
+        snprintf(cr, 3, "%.2hhX", static_cast<unsigned char>(current));
         return std::string{cr};
     }
 

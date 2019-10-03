@@ -635,9 +635,7 @@ WX_CFLAGS
 WX_CPPFLAGS
 WX_CONFIG_PATH
 PROJ_SUBDIRS
-RPI
 VSCPDIR
-STATIC
 WXGTK_STATIC_LIBS
 WXGTK_LIBS
 WXGTK_CFLAGS
@@ -720,7 +718,6 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 enable_debug
-enable_static
 with_wxdir
 with_wx_config
 with_wx_prefix
@@ -1362,7 +1359,6 @@ Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-debug[=no]     compile with debugging; one of yes/info/profile/no
-  --enable-static         static build of wxWidgets (default shared)
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -6578,8 +6574,6 @@ fi
 
 
 
-
-
 if test "${VSCPDIR+set}" = set; then
   echo "variable \$VSCPDIR is set to: $VSCPDIR"
 else
@@ -6603,15 +6597,6 @@ fi
 
 
 
-
-# Check whether --enable-static was given.
-if test "${enable_static+set}" = set; then :
-  enableval=$enable_static; vscp_static=yes
-else
-  vscp_static=no
-fi
-
-test "${vscp_static}" != "yes" && vscp_static="no"
 
 
 
@@ -7164,11 +7149,6 @@ WXGTK_CFLAGS=`$WX_CONFIG_WITH_ARGS --cflags`
 WXGTK_LIBS=`$WX_CONFIG_WITH_ARGS  --libs`
 fi
 
-if test "${vscp_static}" = yes ; then
-STATIC="yes"
-else
-STATIC="no"
-fi
 
 
 ac_config_files="$ac_config_files Makefile m4/Makefile vscpworks/Makefile"
@@ -8489,18 +8469,6 @@ else
    echo "build flavour         : release "
 fi
 
-if test "${vscp_static}" = "yes"
-then
-   echo "linking : static "
-else
-   echo "linking : shared "
-fi
-
-if test "${vscp_rpi}" = yes ; then
-   echo   "Raspberry Pi build    : ${vscp_rpi}"
-else
-   echo   "Raspberry Pi build    : no"
-fi
 
 printf "
 You can tune the compiler flags in vscp-config.
@@ -8510,10 +8478,6 @@ To build VSCP and friends, type \'make\' followed by \'make install\'
  use --enable-static to include a static version (currently diabled).
  use --enable-rpi to build Raspberry Pi specific drivers.
 
- \"make\" -- builds VSCP & Friends.
- \"make install\" -- builds VSCP & Friends and install system.
- \"make install-conf\" -- install/restore configuration files.
- \"make web-install\" -- install/restore web demo content including websocket examples.
- \"make deb\" -- builds VSCP & Friends Debian install files.
- \"make clean\" -- clean project.
+ \"make\" -- builds vscpworks.
+ \"make install\" -- builds vscpworks and installs.
 "

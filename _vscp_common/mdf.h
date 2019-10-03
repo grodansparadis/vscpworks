@@ -1,22 +1,21 @@
-// FILE: mdf.h
+// FILE: mdf.h 
 //
-// This file is part of the VSCP (http://www.vscp.org)
+// This file is part of the VSCP (http://www.vscp.org) 
 //
 // The MIT License (MIT)
-//
-// Copyright (C) 2000-2019 Ake Hedman, Grodans Paradis AB
-// <info@grodansparadis.com>
-//
+// 
+// Copyright (c) 2000-2018 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,32 +25,34 @@
 // SOFTWARE.
 //
 
+
 #ifndef _MDF_H_
 #define _MDF_H_
 
-#include <canal.h>
-#include <crc.h>
+#include "wx/wx.h"
+
 #include <vscp.h>
 #include <vscp_class.h>
 #include <vscp_type.h>
+#include <canal.h>
+#include <crc.h>
 
-#define MDF_ACCESS_READ 1
-#define MDF_ACCESS_WRITE 2
+#define MDF_ACCESS_READ         1
+#define MDF_ACCESS_WRITE        2
 
-#define REGISTER_TYPE_STANDARD 0
-#define REGISTER_TYPE_DMATRIX1 1
-#define REGISTER_TYPE_BLOCK 2
+#define REGISTER_TYPE_STANDARD  0
+#define REGISTER_TYPE_DMATRIX1  1
+#define REGISTER_TYPE_BLOCK     2
 
-enum vscp_level
-{
-    level1 = 1,
-    level2
+enum vscp_level {
+  level1=1,
+  level2
 };
 
-enum vscp_abstraction_type
-{
+
+enum vscp_abstraction_type {
     type_unknown = 0,
-    type_string,
+    type_string,    
     type_bitfield,
     type_boolval,
     type_int8_t,
@@ -81,7 +82,10 @@ enum vscp_abstraction_type
     type_index8_string
 };
 
+WX_DEFINE_ARRAY_LONG( uint32_t, SortedArrayLong );
+
 // * * * Settings * * *
+
 
 /*!
   CMDF_ValueListValue
@@ -89,18 +93,23 @@ enum vscp_abstraction_type
  */
 
 class CMDF_ValueListValue
-{
+{  
 
-  public:
+public:
+
     CMDF_ValueListValue();
     ~CMDF_ValueListValue();
 
-    std::string m_strName;
-    std::string m_strDescription;
-    std::string m_strHelpType;
-    std::string m_strHelp;  // Item help text or URL
-    std::string m_strValue; // The abstraction tells the type
+    wxString m_strName;
+    wxString m_strDescription;
+    wxString m_strHelpType;
+    wxString m_strHelp;             // Item help text or URL
+    wxString m_strValue;            // The abstraction tells the type
+
 };
+
+WX_DECLARE_LIST( CMDF_ValueListValue, MDF_VALUE_LIST );
+
 
 /*!
   CMDF_Abstraction
@@ -108,99 +117,113 @@ class CMDF_ValueListValue
  */
 
 class CMDF_Abstraction
-{
+{  
 
-  public:
+public:
+
     CMDF_Abstraction();
     ~CMDF_Abstraction();
 
     /*!
         Clear data storage
     */
-    void clearStorage(void);
+    void clearStorage( void );
 
     /*!
         Get real text description of type
         @param type Abstraction type
         @return Real text description of type.
     */
-    std::string getAbstractionValueType(void);
-
+    wxString getAbstractionValueType( void );
+    
     /*!
         Get number of bytes for an abstraction type
         @return Number of bytes for abstraction type.
      */
-    uint16_t getAbstractionTypeByteCount(void);
+    uint16_t getAbstractionTypeByteCount( void );
 
-    std::string m_strName;
-    std::string m_strDescription;
-    std::string m_strHelpType;
-    std::string m_strHelp; // Item help text or URL
 
-    std::string m_strID;      // Abstract variable id (unique
-                              // inside of MDF
-    std::string m_strDefault; // default value
+    wxString m_strName;
+    wxString m_strDescription;
+    wxString m_strHelpType;
+    wxString m_strHelp;                 // Item help text or URL
 
-    vscp_abstraction_type m_nType; // One of the predefined types
+    wxString m_strID;                   // Abstract variable id (unique
+                                        // inside of MDF
+    wxString m_strDefault;              // default value
+  
+    vscp_abstraction_type  m_nType;     // One of the predefined types
 
-    uint16_t m_nPage;      // stored on this page
-    uint32_t m_nOffset;    // stored at this offset
-    uint16_t m_nBitnumber; // Stored at this bit position.
+    uint16_t m_nPage;                   // stored on this page
+    uint32_t m_nOffset;                 // stored at this offset
+    uint16_t m_nBitnumber;              // Stored at this bit position.
+  
+    uint16_t m_nWidth;                  // Width for bit field and strings.
 
-    uint16_t m_nWidth; // Width for bit field and strings.
+    uint32_t m_nMax;                    // If numeric max value can be set
+    uint32_t m_nMin;                    // If numeric min value can be set
+  
+    uint8_t m_nAccess;                  // Access rights
 
-    uint32_t m_nMax; // If numeric max value can be set
-    uint32_t m_nMin; // If numeric min value can be set
+    bool m_bIndexed;                    // True of indexed storage
 
-    uint8_t m_nAccess; // Access rights
+    uint32_t m_bgcolor;                 // Cell background colour. Default = white.
+    uint32_t m_fgcolor;                 // Cell foreground colour. Default = black.
 
-    bool m_bIndexed; // True of indexed storage
+    MDF_VALUE_LIST  m_list_value;       // list with selectable values
 
-    uint32_t m_bgcolor; // Cell background colour. Default = white.
-    uint32_t m_fgcolor; // Cell foreground colour. Default = black.
 
-    std::deque<CMDF_ValueListValue *>
-      m_list_value; // list with selectable values
 };
 
+WX_DECLARE_LIST( CMDF_Abstraction, MDF_ABSTRACTION_LIST );
+
+
 // * * * Register * * *
+
 
 /*!
   CMDF_Bit
 
-  This represents a bit or a bitfield. A valuelist can be
+  This represents a bit or a bitfield. A valuelist can be 
   defined to describe the bit combinations.
 
  */
 
 class CMDF_Bit
-{
+{  
 
-  public:
+public:
+
     CMDF_Bit();
     ~CMDF_Bit();
 
-    std::string m_strName;
-    std::string m_strDescription;
+    wxString m_strName;
+    wxString m_strDescription;
+
 
     /*!
         Clear storage
     */
-    void clearStorage(void);
+    void clearStorage( void );
 
-    std::string m_strHelpType;
-    std::string m_strHelp; // Item help text or URL
+    wxString m_strHelpType;
+    wxString m_strHelp;                 // Item help text or URL
+
 
     // The following is used if the abstraction is a bit or bit field
-    uint8_t m_nPos;     // 'pos'      position in bit field 0-7 (from the left)
-    uint8_t m_nWidth;   // 'width'    1 for one bit 2-8 for bit-field
-    uint8_t m_nDefault; // 'default'  Default value for field
+    uint8_t m_nPos;                     // 'pos'      position in bit field 0-7 (from the left)
+    uint8_t m_nWidth;                   // 'width'    1 for one bit 2-8 for bit-field
+    uint8_t m_nDefault;                 // 'default'  Default value for field
 
-    uint8_t m_nAccess; // 'access'   Access rights for the bit(-field)
+    uint8_t m_nAccess;                  // 'access'   Access rights for the bit(-field)
 
-    std::deque<CMDF_ValueListValue *>
-      m_list_value; // List with selectable values
+    MDF_VALUE_LIST  m_list_value;       // List with selectable values
+
+  
 };
+
+WX_DECLARE_LIST( CMDF_Bit, MDF_BIT_LIST );
+
 
 /*!
   CMDF_Register
@@ -210,57 +233,61 @@ class CMDF_Bit
  */
 
 class CMDF_Register
-{
+{  
 
-  public:
+public:
+
     CMDF_Register();
     ~CMDF_Register();
 
     /*!
         Clear storage
     */
-    void clearStorage(void);
-
+    void clearStorage( void );
+    
     /*!
      Set default for value if it is defined.
      */
-    uint8_t setDefault(void);
+    uint8_t setDefault( void );
 
     /*!
-        Assignment
+        Assignment    
     */
-    CMDF_Register &operator=(const CMDF_Register &other);
+    CMDF_Register & operator= ( const CMDF_Register &other );
 
-    std::string m_strName;
-    std::string m_strDescription;
-    std::string m_strHelpType;
-    std::string m_strHelp; // Item help text or url
+    wxString m_strName;
+    wxString m_strDescription;
+    wxString m_strHelpType;
+    wxString m_strHelp;                 // Item help text or url
 
     uint16_t m_nPage;
     uint16_t m_nOffset;
-    uint16_t m_nWidth; // Defaults to 1
+    uint16_t m_nWidth;                  // Defaults to 1
 
-    uint8_t m_type; // std=0/dmatix1=1/block=2
-    uint8_t m_size; // Size for special types (default = 1)
+    uint8_t m_type;                     // std=0/dmatix1=1/block=2
+    uint8_t m_size;                     // Size for special types (default = 1)
 
     uint32_t m_nMin;
     uint32_t m_nMax;
 
-    std::string m_strDefault; // "UNDEF" if not set
+    wxString m_strDefault;              // "UNDEF" if not set
 
     uint8_t m_nAccess;
 
-    std::deque<CMDF_Bit *> m_list_bit; // dll list with bit defines
-    std::deque<CMDF_ValueListValue *>
-      m_list_value; // dll list with selectable values
+    MDF_BIT_LIST  m_list_bit;           // dll list with bit defines
+    MDF_VALUE_LIST  m_list_value;       // dll list with selectable values
 
     // For VSCP Works
-    long m_rowInGrid;   // Helper for display (row reg is displayed on)
-    uint8_t m_value;    // Initial value read. This is the value
-                        // that will be restored.
-    uint32_t m_bgcolor; // Cell background colour. Default = white.
-    uint32_t m_fgcolor; // Cell foreground colour. Default = black.
+    long m_rowInGrid;                   // Helper for display (row reg is displayed on)
+    uint8_t m_value;                    // Initial value read. This is the value
+                                        // that will be restored.
+    uint32_t m_bgcolor;                 // Cell background colour. Default = white.
+    uint32_t m_fgcolor;                 // Cell foreground colour. Default = black.
 };
+
+
+WX_DECLARE_LIST( CMDF_Register, MDF_REGISTER_LIST );
+
 
 /*!
   CMDF_ActionParameter
@@ -270,29 +297,34 @@ class CMDF_Register
  */
 
 class CMDF_ActionParameter
-{
+{  
 
-  public:
+public:
+
     CMDF_ActionParameter();
     ~CMDF_ActionParameter();
 
     /*!
         Clear storage
     */
-    void clearStorage(void);
+    void clearStorage( void );
 
-    std::string m_strName;
-    std::string m_strDescription;
-    std::string m_strHelpType;
-    std::string m_strHelp; // Item help text or url
+    wxString m_strName;
+    wxString m_strDescription;
+    wxString m_strHelpType;
+    wxString m_strHelp;                 // Item help text or url
 
     uint16_t m_nOffset;
-    uint8_t m_width;
+    uint8_t  m_width;
 
-    std::deque<CMDF_Bit *> m_list_bit; // List with bit defines
-    std::deque<CMDF_ValueListValue *>
-      m_list_value; // List with selectable values
+    MDF_BIT_LIST  m_list_bit;           // List with bit defines
+    MDF_VALUE_LIST  m_list_value;       // List with selectable values
+
 };
+
+
+WX_DECLARE_LIST( CMDF_ActionParameter, MDF_ACTIONPARAMETER_LIST );
+
 
 /*!
   CMDF_Action
@@ -302,27 +334,33 @@ class CMDF_ActionParameter
  */
 
 class CMDF_Action
-{
+{  
 
-  public:
+public:
+
     CMDF_Action();
     ~CMDF_Action();
 
     /*!
         Clear storage
     */
-    void clearStorage(void);
+    void clearStorage( void );
 
-    std::string m_strName;
-    std::string m_strDescription;
-    std::string m_strHelpType;
-    std::string m_strHelp; // Item help text or url
+    wxString m_strName;
+    wxString m_strDescription;
+    wxString m_strHelpType;
+    wxString m_strHelp;                 // Item help text or url
 
     uint16_t m_nCode;
 
-    std::deque<CMDF_ActionParameter *>
-      m_list_ActionParameter; // List with action parameters
+    MDF_ACTIONPARAMETER_LIST  m_list_ActionParameter;   // List with action parameters
+
+
 };
+
+
+WX_DECLARE_LIST( CMDF_Action, MDF_ACTION_LIST );
+
 
 /*!
   CMDF_DecisionMatrix
@@ -332,25 +370,26 @@ class CMDF_Action
  */
 
 class CMDF_DecisionMatrix
-{
+{  
 
-  public:
+public:
+
     CMDF_DecisionMatrix();
     ~CMDF_DecisionMatrix();
 
     /*!
         Clear storage
     */
-    void clearStorage(void);
+    void clearStorage( void );
 
-    uint8_t m_nLevel;        // 1 or 2 (defaults to 1)
-    uint16_t m_nStartPage;   // Page where DM starts
-    uint16_t m_nStartOffset; // Offset on start page for DM
-    uint16_t m_nRowCount;    // Number of rows in DM
-    uint16_t m_nRowSize;     // Size of a DM row (Normally 8)
-    bool m_bIndexed;         // True of storage is indexed
+    uint8_t  m_nLevel;              // 1 or 2 (defaults to 1)
+    uint16_t m_nStartPage;          // Page where DM starts
+    uint16_t m_nStartOffset;        // Offset on start page for DM
+    uint16_t m_nRowCount;           // Number of rows in DM
+    uint16_t m_nRowSize;            // Size of a DM row (Normally 8)
+    bool m_bIndexed;                // True of storage is indexed
 
-    std::deque<CMDF_Action *> m_list_action; // Action description
+    MDF_ACTION_LIST  m_list_action; // Action description
 };
 
 /*!
@@ -361,28 +400,34 @@ class CMDF_DecisionMatrix
  */
 
 class CMDF_EventData
-{
+{  
 
-  public:
+public:
+
     CMDF_EventData();
     ~CMDF_EventData();
 
     /*!
         Clear storage
     */
-    void clearStorage(void);
+    void clearStorage( void );
 
-    std::string m_strName;
-    std::string m_strDescription;
-    std::string m_strHelpType;
-    std::string m_strHelp; // Item help text or url
+    wxString m_strName;
+    wxString m_strDescription;
+    wxString m_strHelpType;
+    wxString m_strHelp;                 // Item help text or url
 
     uint16_t m_nOffset;
 
-    std::deque<CMDF_Bit *> m_list_bit; // List with bit defines
-    std::deque<CMDF_ValueListValue *>
-      m_list_value; // List with selectable values
+    MDF_BIT_LIST  m_list_bit;           // List with bit defines
+    MDF_VALUE_LIST  m_list_value;       // List with selectable values
+
+
 };
+
+
+WX_DECLARE_LIST( CMDF_EventData, MDF_EVENTDATA_LIST );
+
 
 /*!
   CMDF_Event
@@ -392,29 +437,35 @@ class CMDF_EventData
  */
 
 class CMDF_Event
-{
+{  
 
-  public:
+public:
+
     CMDF_Event();
     ~CMDF_Event();
 
     /*!
         Clear storage
     */
-    void clearStorage(void);
+    void clearStorage( void );
 
-    std::string m_strName;
-    std::string m_strDescription;
-    std::string m_strHelpType;
-    std::string m_strHelp; // Item help text or url
+    wxString m_strName;
+    wxString m_strDescription;
+    wxString m_strHelpType;
+    wxString m_strHelp;                 // Item help text or url
 
     uint16_t m_nClass;
     uint16_t m_nType;
-    uint8_t m_nPriority;
+    uint8_t  m_nPriority;
 
-    std::deque<CMDF_EventData *>
-      m_list_eventdata; // List with event data descriptions
+    MDF_EVENTDATA_LIST  m_list_eventdata; // List with ecent data descriptions
+
 };
+
+
+WX_DECLARE_LIST( CMDF_Event, MDF_EVENT_LIST );
+
+
 
 /*!
   CMDF_Item
@@ -425,17 +476,22 @@ class CMDF_Event
  */
 
 class CMDF_Item
-{
+{  
 
-  public:
+public:
+
     CMDF_Item();
     ~CMDF_Item();
 
-    std::string m_strItem;
-    std::string m_strDescription;
-    std::string m_strHelpType;
-    std::string m_strHelp; // Item help text or url
+    wxString m_strItem;    
+    wxString m_strDescription;
+    wxString m_strHelpType;
+    wxString m_strHelp;                 // Item help text or url
 };
+
+
+WX_DECLARE_LIST( CMDF_Item, MDF_ITEM_LIST );
+
 
 /*!
   CMDF_BootLoaderInfo
@@ -445,20 +501,22 @@ class CMDF_Item
  */
 
 class CMDF_BootLoaderInfo
-{
+{  
 
-  public:
+public:
+
     CMDF_BootLoaderInfo();
     ~CMDF_BootLoaderInfo();
 
     /*!
         Clear storage
     */
-    void clearStorage(void);
+    void clearStorage( void );
 
-    uint8_t m_nAlgorithm;   // Bootloader algorithm used by device
-    uint32_t m_nBlockSize;  // Size for one boot block
-    uint32_t m_nBlockCount; // Number of boot blocks
+    uint8_t  m_nAlgorithm;              // Bootloader algorithm used by device
+    uint32_t m_nBlockSize;              // Size for one boot block
+    uint32_t m_nBlockCount;             // Number of boot blocks
+
 };
 
 /*!
@@ -469,25 +527,31 @@ class CMDF_BootLoaderInfo
  */
 
 class CMDF_Address
-{
+{  
 
-  public:
+public:
+
     CMDF_Address();
     ~CMDF_Address();
 
     /*!
         Clear storage
     */
-    void clearStorage(void);
+    void clearStorage( void );
 
-    std::string m_strStreet;
-    std::string m_strTown;
-    std::string m_strCity;
-    std::string m_strPostCode;
-    std::string m_strState;
-    std::string m_strRegion;
-    std::string m_strCountry;
+    wxString m_strStreet;    
+    wxString m_strTown;
+    wxString m_strCity;
+    wxString m_strPostCode;
+    wxString m_strState;
+    wxString m_strRegion;
+    wxString m_strCountry;
+  
 };
+
+
+WX_DECLARE_LIST( CMDF_Address, MDF_ADDRESS_LIST );
+
 
 /*!
   CMDF_Manufacturer
@@ -497,26 +561,31 @@ class CMDF_Address
  */
 
 class CMDF_Manufacturer
-{
+{  
 
-  public:
+public:
+
     CMDF_Manufacturer();
     ~CMDF_Manufacturer();
 
     /*!
         Clear storage
     */
-    void clearStorage(void);
+    void clearStorage( void );
 
-    std::string m_strName;
-
-    std::deque<CMDF_Address *> m_list_Address;
-
-    std::deque<CMDF_Item *> m_list_Phone;
-    std::deque<CMDF_Item *> m_list_Fax;
-    std::deque<CMDF_Item *> m_list_Email;
-    std::deque<CMDF_Item *> m_list_Web;
+    wxString m_strName;
+  
+    MDF_ADDRESS_LIST m_list_Address;
+  
+    MDF_ITEM_LIST m_list_Phone;
+    MDF_ITEM_LIST m_list_Fax;
+    MDF_ITEM_LIST m_list_Email;
+    MDF_ITEM_LIST m_list_Web;
 };
+
+
+WX_DECLARE_LIST( CMDF_Manufacturer, MDF_MANUFACTURER_LIST );
+
 
 /*!
   CMDF_Manufacturer
@@ -526,21 +595,23 @@ class CMDF_Manufacturer
  */
 
 class CMDF_Firmware
-{
+{  
 
-  public:
+public:
+
     CMDF_Firmware();
     ~CMDF_Firmware();
 
     /*!
         Clear storage
     */
-    void clearStorage(void);
+    void clearStorage( void );
 
     /*!
         Path to firmware hex file
     */
-    std::string m_strPath;
+    wxString m_strPath;
+
 
     /*!
         Size for firmware file (not the image)
@@ -559,8 +630,9 @@ class CMDF_Firmware
     /*!
         Description of file
     */
-    std::string m_description;
+    wxString m_description;
 };
+
 
 /*!
   CMDF
@@ -570,47 +642,51 @@ class CMDF_Firmware
  */
 
 class CMDF
-{
+{  
 
-  public:
+public:
+
     CMDF();
     ~CMDF();
 
     /*!
         Clear storage
     */
-    void clearStorage(void);
+    void clearStorage( void );
 
     /*!
         Download MDF file from a server
         @param remoteFile remote file URL
-        @param variable that will receive temporary filename for downloaded
-       file.
+        @param variable that will receive temporary filename for downloaded file.
         @return Return true if a valid file is downloaded.
     */
-    bool downLoadMDF(std::string &remoteFile, std::string &tempFile);
+    bool downLoadMDF( wxString& remoteFile, wxString& tempFile );
+
 
     /*!
         Load MDF from local or remote storage and parse it into
         a MDF structure.
-        @param Filename or URL to MDF file.
+        @param Filename or URL to MDF file. If empty and bSilent is false
+                the method will ask for this parameter.
+        @param bSilent No dialogs are shown if set to true.
         @param blocalFile Asks for a local file if set to true.
         @return returns true on success, false on failure.
     */
-    bool load(std::string &remoteFile, bool bLocalFile = false);
+    bool load( wxString& remoteFile, bool bLocalFile = false, bool bSilent = false );
 
     /*!
         Format an MDF description so it can be shown
         @param str String to format.
     */
-    void mdfDescriptionFormat(std::string &str);
+    void mdfDescriptionFormat( wxString& str );
 
+         
     /*!
         Parse a MDF
         @param path Path to downloaded MDF
         @return true if the parsing went well.
     */
-    bool parseMDF(std::string &path);
+    bool parseMDF( wxString& path );
 
     // Helpers
 
@@ -619,14 +695,14 @@ class CMDF
         @param page Register page to check
         @return Number of registers used.
     */
-    uint32_t getNumberOfRegisters(uint32_t page);
+    uint32_t getNumberOfRegisters( uint32_t page );
 
     /*!
         Get number of register pages used
-        @param array Reference to array with pages
+        @param array Reference to array with pages  
         @return Number of register pages used.
     */
-    uint32_t getPages(std::set<long> &pages);
+    uint32_t getPages( wxArrayLong& array );
 
     /*!
         Return register class from register + page
@@ -634,43 +710,44 @@ class CMDF
         @param page Page top search for.
         @return Pointer to CMDF_Register class if found else NULL.
     */
-    CMDF_Register *getMDFRegister(uint8_t reg, uint16_t page);
+    CMDF_Register *getMDFRegister( uint8_t reg, uint16_t page );
 
     /*
         Return temporary file path
         @return path
     */
-    std::string getTempFilePath(void) { return m_tempFileName; };
+    wxString getTempFilePath( void ) { return m_tempFileName; };
 
-    std::string m_strLocale; // ISO code for requested language
-                             // defaults to "en"
 
-    std::string m_tempFileName; // Local downloaded file path
+    wxString m_strLocale;                       // ISO code for requested language
+                                                // defaults to "en"
 
-    std::string m_strModule_Name;        // Module name
-    std::string m_strModule_Model;       // Module Model
-    std::string m_strModule_Version;     // Module version
-    std::string m_strModule_Description; // Module description
-    std::string m_strModule_InfoURL;     // URL for full module information
-    std::string m_changeDate;            // Last date changed
+    wxString m_tempFileName;                    // Local downloaded file path
 
-    std::string m_strURL; // Location for MDF file
+    wxString m_strModule_Name;                  // Module name
+    wxString m_strModule_Model;                 // Module Model
+    wxString m_strModule_Version;               // Module version
+    wxString m_strModule_Description;           // Module description
+    wxString m_strModule_InfoURL;               // URL for full module information
+    wxString m_changeDate;                      // Last date changed
 
-    uint16_t m_Module_buffersize; // Buffersize for module
+    wxString m_strURL;                          // Location for MDF file
 
-    CMDF_Firmware m_firmware; // Firmware file
+    uint16_t m_Module_buffersize;               // Buffersize for module
 
-    std::deque<CMDF_Manufacturer *>
-      m_list_manufacturer; // Manufacturer information
+    CMDF_Firmware m_firmware;                   // Firmware file
 
-    CMDF_DecisionMatrix m_dmInfo;   // Info about decision matrix
-    CMDF_BootLoaderInfo m_bootInfo; // Boot loader info
+    MDF_MANUFACTURER_LIST m_list_manufacturer;  // Manufacturer information
 
-    std::deque<CMDF_Event *> m_list_event; // Events this node can generate
-    std::deque<CMDF_Register *> m_list_register; // List with defined registers
-    std::deque<CMDF_Abstraction *>
-      m_list_abstraction;                    // List with defined abstractions
-    std::deque<CMDF_Bit *> m_list_alarmbits; // List with alarm bit defines
+    CMDF_DecisionMatrix m_dmInfo;               // Info about decision matrix
+    CMDF_BootLoaderInfo m_bootInfo;             // Boot loader info
+    
+    MDF_EVENT_LIST m_list_event;                // Events this node can generate
+    MDF_REGISTER_LIST m_list_register;          // List with defined registers
+    MDF_ABSTRACTION_LIST m_list_abstraction;    // List with defined abstractions
+    MDF_BIT_LIST m_list_alarmbits;              // List with alarm bit defines
 };
 
 #endif
+
+

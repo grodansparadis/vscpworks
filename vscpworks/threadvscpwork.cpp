@@ -124,7 +124,7 @@ void *VscpWorkThread::Entry()
     //strParam += g_Config.strPort;
 
     // Connect to the server
-    if ( m_vscptcpif.doCmdOpen( strParam.ToStdString() ) ) {
+    if ( m_vscptcpif.doCmdOpen( strParam ) ) {
     
         // Initialize UI
         //eventTemperature.SetString(_("----") );

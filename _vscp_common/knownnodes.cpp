@@ -4,8 +4,7 @@
 //
 // The MIT License (MIT)
 //
-// Copyright (C) 2000-2019 Ake Hedman, Grodans Paradis AB
-// <info@grodansparadis.com>
+// Copyright (c) 2000-2018 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -14,8 +13,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,137 +24,155 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+
+#ifdef WIN32
+#include <sys/types.h>   // for type definitions
+#include <winsock2.h>
+#include <ws2tcpip.h>    // for win socket structs
+#endif
+
+#include "wx/wxprec.h"
+#include "wx/wx.h"
+#include "wx/defs.h"
+#include "wx/app.h"
+#include <wx/datetime.h>
+#include <wx/listimpl.cpp>
+#include <wx/hashmap.h>
+
+#ifdef WIN32
+#else
+
 #define _POSIX
 
-#include <pthread.h>
-
-#include <map>
-#include <string>
-
-#include <netdb.h>
-#include <netinet/in.h>
 #include <stdio.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <syslog.h>
 #include <unistd.h>
+#include <string.h>
+#include <syslog.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
 
-#include <clientlist.h>
-#include <controlobject.h>
-#include <crc8.h>
-#include <daemonworker.h>
+#endif
+
+#include "daemonworker.h"
+#include "vscp.h"
+#include "vscphelper.h"
+#include "clientlist.h"
 #include <dllist.h>
-#include <guid.h>
-#include <vscp.h>
+#include <crc8.h>
 #include <vscpdb.h>
-#include <vscphelper.h>
-
+#include "controlobject.h"
+#include "guid.h"
 #include "knownnodes.h"
+
 
 ///////////////////////////////////////////////////
 //                 GLOBALS
 ///////////////////////////////////////////////////
 
-extern CControlObject *gpobj;
+//extern CControlObject *gpobj;
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //                           Node information
 ///////////////////////////////////////////////////////////////////////////////
 
+
 ///////////////////////////////////////////////////////////////////////////////
 // CNodeInformation CTOR
 //
 
-cvscpnode::cvscpnode()
+CVSCPNode::CVSCPNode()
 {
-    m_dbId          = -1;
-    m_bUpdated      = false;
+    m_dbId = -1;
+    m_bUpdated = false;
     m_bInvestigated = false;
     m_realguid.clear();
     m_interfaceguid.clear();
-    lint_to_mdf     = 0;
-    m_lastHeartBeat = vscpdatetime::Now();
-    m_strNodeName;
-    m_deviceName;
+    lint_to_mdf = 0;
+    m_lastHeartBeat = wxDateTime::Now();
+    m_strNodeName.Empty();
+    m_deviceName.Empty();
     m_clientID = 0;
-    m_level    = 0;
+    m_level = 0;
 
-    memset(m_ports, 0, sizeof(m_ports));
+    memset( m_ports, 0, sizeof(m_ports) );
 
     m_ports[15] = VSCP_DEFAULT_TCP_PORT;
     m_ports[14] = VSCP_DEFAULT_UDP_PORT;
     m_ports[13] = VSCP_ANNOUNCE_MULTICAST_PORT;
-    m_ports[12] = 0;    // Raw Ethernet, no port.
+    m_ports[12] = 0; // Raw Ethernet, no port.
     m_ports[11] = 8884; // web.
     m_ports[10] = 8884; // websocket.
-    m_ports[9]  = 8884; // rest, no port.
-    m_ports[8]  = VSCP_DEFAULT_MULTICAST_PORT;
-    m_ports[7]  = 0; // reserved
-    m_ports[6]  = 0; // IP6, no port.
-    m_ports[5]  = 0; // IP4, no port.
-    m_ports[4]  = 0; // SSL (web/websocket/rest port)
-    m_ports[3]  = 0; // Two connections, no port.
-    m_ports[2]  = 0; // AES256, no port.
-    m_ports[1]  = 0; // AES192, no port.
-    m_ports[0]  = 0; // AES128, no port.
+    m_ports[9] = 8884;  // rest, no port.
+    m_ports[8] = VSCP_DEFAULT_MULTICAST_PORT;
+    m_ports[7] = 0;  // reserved
+    m_ports[6] = 0;  // IP6, no port.
+    m_ports[5] = 0;  // IP4, no port.
+    m_ports[4] = 0;  // SSL (web/websocket/rest port)
+    m_ports[3] = 0;  // Two connections, no port.
+    m_ports[2] = 0;  // AES256, no port.
+    m_ports[1] = 0;  // AES192, no port.
+    m_ports[0] = 0;  // AES128, no port.
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// cvscpnode DTOR
+// CVSCPNode DTOR
 //
 
-cvscpnode::~cvscpnode()
+CVSCPNode::~CVSCPNode()
 {
     ;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // getCapabilitiesFromString
 //
 
-void
-cvscpnode::getCapabilitiesFromString(const std::string &strCapabilities)
+void CVSCPNode::getCapabilitiesFromString( const wxString& strCapabilities )
 {
     uint64_t caps = 0;
-    std::deque<std::string> tokens;
-    vscp_split(tokens, strCapabilities, ",");
+    wxStringTokenizer tkz( strCapabilities, _(",") );
 
-    for (int i = 7; i > 0; i--) {
-        if (!tokens.empty()) {
-            uint8_t val = vscp_readStringValue(tokens.front());
-            tokens.pop_front();
-            caps |= (val << (i * 8));
+    for ( int i=7; i>0; i-- ) {
+        if ( tkz.HasMoreTokens() ) {
+            uint8_t val = vscp_readStringValue( tkz.GetNextToken() );
+            caps |= ( val << ( i*8 ) );
         }
     }
 
     m_capabilities = caps;
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////
 // getCapabilitiesFromString
 //
 
-void
-cvscpnode::writeCapabilitiesToString(std::string &strCapabilities)
+void CVSCPNode::writeCapabilitiesToString( wxString& strCapabilities )
 {
-    strCapabilities =
-      vscp_str_format("%02x,%02x,%02x,%02x,%02x,%02x,%02x,%02x",
-                         (m_capabilities >> 56) & 0xff,
-                         (m_capabilities >> 48) & 0xff,
-                         (m_capabilities >> 40) & 0xff,
-                         (m_capabilities >> 32) & 0xff,
-                         (m_capabilities >> 24) & 0xff,
-                         (m_capabilities >> 16) & 0xff,
-                         (m_capabilities >> 8) & 0xff,
-                         m_capabilities & 0xff);
+    strCapabilities.Printf( "%02x,%02x,%02x,%02x,%02x,%02x,%02x,%02x",
+                                ( m_capabilities >> 56 ) & 0xff,
+                                ( m_capabilities >> 48 ) & 0xff,
+                                ( m_capabilities >> 40 ) & 0xff,
+                                ( m_capabilities >> 32 ) & 0xff,
+                                ( m_capabilities >> 24 ) & 0xff,
+                                ( m_capabilities >> 16 ) & 0xff,
+                                ( m_capabilities >> 8 ) & 0xff,
+                                m_capabilities & 0xff );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // CKnownNodes CTOR
 //
 
-CKnownNodes::CKnownNodes() {}
+CKnownNodes::CKnownNodes()
+{
+
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // CKnownNodes DTOR
@@ -165,78 +182,80 @@ CKnownNodes::~CKnownNodes()
 {
     // Remove hash content
     {
-        std::map<std::string, cvscpnode *>::iterator it;
-        for (it = m_nodes.begin(); it != m_nodes.end(); ++it) {
-            std::string key  = it->first;
-            cvscpnode *pNode = it->second;
-            if (NULL != pNode) delete pNode;
+        VSCP_HASH_KNOWN_NODES::iterator it;
+        for ( it = m_nodes.begin(); it != m_nodes.end(); ++it )
+        {
+            wxString key = it->first;
+            CVSCPNode *pNode = it->second;
+            if ( NULL != pNode ) delete pNode;
             pNode = NULL;
         }
     }
 
     // Clear the map
     m_nodes.clear();
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // findNode
 //
 
-cvscpnode *
-CKnownNodes::findNode(cguid &guid)
+CVSCPNode *CKnownNodes::findNode( cguid& guid )
 {
-    std::string strGUID;
+    wxString strGUID;
 
-    guid.toString(strGUID);
-    return m_nodes[strGUID];
+    guid.toString( strGUID  );
+    return m_nodes[ strGUID ];
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // addNode
 //
 
-cvscpnode *
-CKnownNodes::addNode(cguid &guid)
+CVSCPNode *CKnownNodes::addNode( cguid& guid )
 {
-    cvscpnode *pNode = findNode(guid);
-    if (NULL == pNode) {
-        pNode = new cvscpnode;
-        if (NULL != pNode) {
-            std::string strGUID;
-            guid.toString(strGUID);
-            m_nodes[strGUID] = pNode; // Assign the node
+    CVSCPNode *pNode = findNode( guid );
+    if ( NULL == pNode ) {
+        pNode = new CVSCPNode;
+        if ( NULL != pNode ) {
+            wxString strGUID;
+            guid.toString( strGUID );
+            m_nodes[ strGUID ] = pNode;    // Assign the node
         }
     }
 
     return pNode;
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////
 // removeNode
 //
 
-bool
-CKnownNodes::removeNode(cguid &guid)
+bool CKnownNodes::removeNode( cguid& guid )
 {
-    std::string strGUID;
-    bool rv          = false;
-    cvscpnode *pNode = findNode(guid);
-    if (NULL != pNode) delete pNode;
+    wxString strGUID;
+    bool rv = false;
+    CVSCPNode *pNode = findNode( guid );
+    if ( NULL != pNode ) delete pNode;
     pNode = NULL;
 
-    guid.toString(strGUID);
-    m_nodes[strGUID] = NULL;
-    m_nodes.erase(strGUID);
+    guid.toString( strGUID );
+    m_nodes[ strGUID ] = NULL;
+    m_nodes.erase( strGUID );
 
     return rv;
 }
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // saveNodes
 //
 
-void
-CKnownNodes::save(void)
+void CKnownNodes::save( void )
 {
     // TODO
 }
@@ -245,123 +264,139 @@ CKnownNodes::save(void)
 // loadNodes
 //
 
-bool
-CKnownNodes::load(void)
+bool CKnownNodes::load( void )
 {
+    /*
     const char *p;
     char *pErrMsg;
     sqlite3_stmt *ppStmt;
 
-    pthread_mutex_lock(&gpobj->m_knownNodes.m_mutexKnownNodes);
+    gpobj->m_knownNodes.m_mutexKnownNodes.Lock();
 
-    if (SQLITE_OK !=
-        sqlite3_prepare_v2(
-          gpobj->m_db_vscp_daemon, VSCPDB_GUID_SELECT_ALL, -1, &ppStmt, NULL)) {
+    if ( SQLITE_OK != sqlite3_prepare_v2( gpobj->m_db_vscp_daemon,
+                                            VSCPDB_GUID_SELECT_ALL,
+                                            -1,
+                                            &ppStmt,
+                                            NULL ) ) {
+
+
     }
 
     int i;
-    while (SQLITE_ROW == sqlite3_step(ppStmt)) {
+    while ( SQLITE_ROW == sqlite3_step( ppStmt ) ) {
 
         // GUID ( Must be present
-        if (NULL == (p = (const char *)sqlite3_column_text(
-                       ppStmt, VSCPDB_ORDINAL_GUID_GUID))) {
+        if ( NULL ==
+                 ( p = (const char *)sqlite3_column_text( ppStmt,
+                                        VSCPDB_ORDINAL_GUID_GUID ) ) ) {
             continue;
         }
 
         cguid guid;
-        guid.getFromString(p);
-        cvscpnode *pNode = addNode(guid);
+        guid.getFromString( p );
+        CVSCPNode *pNode = addNode( guid );
 
         // id in database
-        if (NULL != (p = (const char *)sqlite3_column_text(
-                       ppStmt, VSCPDB_ORDINAL_GUID_ID))) {
-            pNode->m_dbId = atol(p);
+        if ( NULL !=
+                 ( p = (const char *)sqlite3_column_text( ppStmt,
+                                                    VSCPDB_ORDINAL_GUID_ID ) ) ) {
+            pNode->m_dbId = atol( p );
         }
 
         // Nodename - Database given name for node
-        if (NULL != (p = (const char *)sqlite3_column_text(
-                       ppStmt, VSCPDB_ORDINAL_GUID_NAME))) {
-            pNode->m_strNodeName = std::string(p);
+        if ( NULL !=
+                 ( p = (const char *)sqlite3_column_text( ppStmt,
+                                               VSCPDB_ORDINAL_GUID_NAME ) ) ) {
+            pNode->m_strNodeName = wxString::FromUTF8( p );
         }
 
+
         // Type
-        if (NULL != (p = (const char *)sqlite3_column_text(
-                       ppStmt, VSCPDB_ORDINAL_GUID_TYPE))) {
+        if ( NULL !=
+                 ( p = (const char *)sqlite3_column_text( ppStmt,
+                                        VSCPDB_ORDINAL_GUID_TYPE ) ) ) {
             pNode->m_nodeType = (uint8_t)atoi(p);
         }
 
         // Last heartbeat is set to discovery date here
-        if (NULL != (p = (const char *)sqlite3_column_text(
-                       ppStmt, VSCPDB_ORDINAL_GUID_DATE))) {
-            pNode->m_lastHeartBeat.set(p);
+        if ( NULL !=
+                 ( p = (const char *)sqlite3_column_text( ppStmt,
+                                        VSCPDB_ORDINAL_GUID_DATE ) ) ) {
+            pNode->m_lastHeartBeat.ParseISOCombined( p );
         }
 
         // MDF link
-        if (NULL != (p = (const char *)sqlite3_column_text(
-                       ppStmt, VSCPDB_ORDINAL_GUID_LINK_TO_MDF))) {
-            uint32_t lint_to_mdf = (uint32_t)atol(p);
+        if ( NULL !=
+                 ( p = (const char *)sqlite3_column_text( ppStmt,
+                                        VSCPDB_ORDINAL_GUID_LINK_TO_MDF ) ) ) {
+           uint32_t lint_to_mdf = (uint32_t)atol( p );
         }
 
         // Address
-        if (NULL != (p = (const char *)sqlite3_column_text(
-                       ppStmt, VSCPDB_ORDINAL_GUID_ADDRESS))) {
-            pNode->m_address = std::string(p);
+        if ( NULL !=
+                 ( p = (const char *)sqlite3_column_text( ppStmt,
+                                        VSCPDB_ORDINAL_GUID_ADDRESS ) ) ) {
+            pNode->m_address = wxString::FromUTF8( p );
         }
 
         // Capabilities
-        if (NULL != (p = (const char *)sqlite3_column_text(
-                       ppStmt, VSCPDB_ORDINAL_GUID_CAPABILITIES))) {
-            pNode->getCapabilitiesFromString(p);
+        if ( NULL !=
+                 ( p = (const char *)sqlite3_column_text( ppStmt,
+                                        VSCPDB_ORDINAL_GUID_CAPABILITIES ) ) ) {
+            pNode->getCapabilitiesFromString( p );
         }
 
         // Non-standard ports
-        if (NULL != (p = (const char *)sqlite3_column_text(
-                       ppStmt, VSCPDB_ORDINAL_GUID_NONSTANDARD))) {
-            std::string str = std::string(p);
-            // pNode-> ->m_capabilities = std::string( p );
+        if ( NULL !=
+                 ( p = (const char *)sqlite3_column_text( ppStmt,
+                                        VSCPDB_ORDINAL_GUID_NONSTANDARD ) ) ) {
+            wxString str = wxString::FromUTF8( p );
+            //pNode-> ->m_capabilities = wxString::FromUTF8( p );
         }
+
     }
 
-    pthread_mutex_unlock(&gpobj->m_knownNodes.m_mutexKnownNodes);
-
+    gpobj->m_knownNodes.m_mutexKnownNodes.Unlock();
+*/
     return true;
 }
 
+
 /*
 
-#include <xx/XML/xml.h>
- #include <xx/protocol/http.h>
+ #include <wx/protocol/http.h>
+#include <wx/XML/xml.h>
 //[...]
-        std::string link;
-        xxHTTP http;
+	wxString link;
+	wxHTTP http;
 
-        http.SetTimeout(6);
-        http.Connect(_T("example.com"));
+	http.SetTimeout(6);
+	http.Connect(_T("example.com"));
         // PHP file sending XML content
-        xxInputStream *httpStream = http.GetInputStream(_T("/file.php"));
+	wxInputStream *httpStream = http.GetInputStream(_T("/file.php"));
 
-        if (http.GetError() == xxPROTO_NOERR)
-        {
+	if (http.GetError() == wxPROTO_NOERR)
+	{
                 // will crash here, if xml content is not formatted PERFECTLY
-                xxXmlDocument xml(*httpStream);
+		wxXmlDocument xml(*httpStream);
 
-                xxXmlNode *node = xml.GetRoot()->GetChildren();
-                while (node)
-                {
-                        if (node->GetName() == _T("tagname1"))
-                                staticText1->SetLabel(node->GetNodeContent());
-                        else if(node->GetName() == _T("tagname2"))
-                                staticText2->SetLabel(node->GetNodeContent());
+		wxXmlNode *node = xml.GetRoot()->GetChildren();
+		while (node)
+		{
+			if (node->GetName() == _T("tagname1"))
+				staticText1->SetLabel(node->GetNodeContent());
+			else if(node->GetName() == _T("tagname2"))
+				staticText2->SetLabel(node->GetNodeContent());
 
                         // [...]
 
-                        node = node->GetNext();
-                }
-        }
-        else
-                xxMessageBox(_T("Can't connect!"));
+			node = node->GetNext();
+		}
+	}
+	else
+		wxMessageBox(_T("Can't connect!"));
 
-        http.Close();
-        xxDELETE(httpStream);
+	http.Close();
+	wxDELETE(httpStream);
 
  */

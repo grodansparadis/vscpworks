@@ -98,9 +98,7 @@ AC_SUBST(WXGTK_CXXFLAGS)
 AC_SUBST(WXGTK_CFLAGS)
 AC_SUBST(WXGTK_LIBS)
 AC_SUBST(WXGTK_STATIC_LIBS)
-AC_SUBST(STATIC)
 AC_SUBST(VSCPDIR)
-AC_SUBST(RPI)
 
 dnl
 dnl Project base installation folder
@@ -143,14 +141,6 @@ dnl [  --enable-debug/--disable-debug          debug mode (default disabled)],
 dnl [vscp_debug=yes],[vscp_debug=no])
 dnl test "${vscp_debug}" != "yes" && vscp_debug="no"
 
-dnl
-dnl  Static build if wxWidgets
-dnl
-
-AC_ARG_ENABLE(static,
-[  --enable-static         static build of wxWidgets (default shared)],
-[vscp_static=yes],[vscp_static=no])
-test "${vscp_static}" != "yes" && vscp_static="no"
 
 dnl
 dnl  wxWindows module
@@ -219,11 +209,6 @@ WXGTK_LIBS=`$WX_CONFIG_WITH_ARGS  --libs`
 dnl WXGTK_STATIC_LIBS=`$WX_CONFIG_WITH_ARGS --static --libs`
 fi
 
-if test "${vscp_static}" = yes ; then
-STATIC="yes"
-else
-STATIC="no"
-fi
 
 dnl
 dnl Construct Makefiles
@@ -271,18 +256,6 @@ else
    echo "build flavour         : release "
 fi
 
-if test "${vscp_static}" = "yes"
-then
-   echo "linking : static "
-else
-   echo "linking : shared "
-fi
-
-if test "${vscp_rpi}" = yes ; then
-   echo   "Raspberry Pi build    : ${vscp_rpi}"
-else
-   echo   "Raspberry Pi build    : no"
-fi
 
 printf "
 You can tune the compiler flags in vscp-config.
@@ -292,11 +265,7 @@ To build VSCP and friends, type \'make\' followed by \'make install\'
  use --enable-static to include a static version (currently diabled).
  use --enable-rpi to build Raspberry Pi specific drivers.
 
- \"make\" -- builds VSCP & Friends.
- \"make install\" -- builds VSCP & Friends and install system.
- \"make install-conf\" -- install/restore configuration files.
- \"make web-install\" -- install/restore web demo content including websocket examples.
- \"make deb\" -- builds VSCP & Friends Debian install files.
- \"make clean\" -- clean project.
+ \"make\" -- builds vscpworks.
+ \"make install\" -- builds vscpworks and installs.
 "
 dnl vi: set et sts=4 sw=4 com=\:dnl

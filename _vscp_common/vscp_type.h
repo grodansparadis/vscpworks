@@ -16,7 +16,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2000-2019 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
+ * Copyright (c) 2000-2018 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,7 @@
             !!!!!!!!!!!!!!!!!!!!  W A R N I N G  !!!!!!!!!!!!!!!!!!!!
                            This file is auto-generated
                 see https://github.com/grodansparadis/vscp-classes
-                        Generated: 2019-09-26 11:12:50.145935
+                        Generated: 2018-11-27 23:35:57.853655
 */
  
 #ifndef VSCP_TYPE_H
@@ -213,6 +213,7 @@
 #define VSCP_TYPE_DATA_RELATIVE_STRENGTH            4   /* Relative strength */
 #define VSCP_TYPE_DATA_SIGNAL_LEVEL                 5   /* Signal Level */
 #define VSCP_TYPE_DATA_SIGNAL_QUALITY               6   /* Signal Quality */
+#define VSCP_TYPE_DATA_COUNT                        7   /* Count value */
     
 /*  CLASS1.INFORMATION = 20  -  Information */
 #define VSCP_TYPE_INFORMATION_GENERAL               0   /* General event */
@@ -342,7 +343,6 @@
 #define VSCP_TYPE_CONTROL_ALL_LAMPS_OFF             41  /* (All) Lamp(s) off */
 #define VSCP_TYPE_CONTROL_LOCK                      42  /* Lock */
 #define VSCP_TYPE_CONTROL_UNLOCK                    43  /* Unlock */
-#define VSCP_TYPE_CONTROL_PWM                       44  /* PWM set */
     
 /*  CLASS1.MULTIMEDIA = 40  -  Multimedia */
 #define VSCP_TYPE_MULTIMEDIA_GENERAL                0   /* General event */
@@ -470,7 +470,6 @@
 #define VSCP_TYPE_WEATHER_WARNING_LEVEL4            49  /* Warning level 4 */
 #define VSCP_TYPE_WEATHER_WARNING_LEVEL5            50  /* Warning level 5 */
 #define VSCP_TYPE_WEATHER_ARMAGEDON                 51  /* Armageddon */
-#define VSCP_TYPE_WEATHER_UV_INDEX                  52  /* UV Index */
     
 /*  CLASS1.WEATHER_FORECAST = 95  -  Weather forecast */
 /* 	Event types is the same as  CLASS1.WEATHER = 90  -  Weather */

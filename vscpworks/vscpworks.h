@@ -1,43 +1,43 @@
 /////////////////////////////////////////////////////////////////////////////
 // Name:        vscpworks.h
-// Purpose:     
+// Purpose:
 // Author:      Ake Hedman
-// Modified by: 
+// Modified by:
 // Created:     Thu 28 Jun 2007 10:05:16 CEST
-// RCS-ID:      
-// Copyright:   (C) 2007-2018 
+// RCS-ID:
+// Copyright:   (C) 2007-2018
 // Ake Hedman, Grodans Paradis AB, <akhe@grodansparadis.com>
-// Licence:     
+// Licence:
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version
 // 2 of the License, or (at your option) any later version.
-// 
-// This file is part of the VSCP (http://www.vscp.org) 
-// 
+//
+// This file is part of the VSCP (http://www.vscp.org)
+//
 // This file is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this file see the file COPYING.  If not, write to
 // the Free Software Foundation, 59 Temple Place - Suite 330,
 //  Boston, MA 02111-1307, USA.
-// 
+//
 //  As a special exception, if other files instantiate templates or use macros
 //  or inline functions from this file, or you compile this file and link it
 //  with other works to produce a work based on this file, this file does not
 //  by itself cause the resulting work to be covered by the GNU General Public
 //  License. However the source code for this file must still be made available
 //  in accordance with section (3) of the GNU General Public License.
-// 
+//
 //  This exception does not invalidate any other reasons why a work based on
 //  this file might be covered by the GNU General Public License.
-// 
-//  Alternative licenses for VSCP & Friends may be arranged by contacting 
+//
+//  Alternative licenses for VSCP & Friends may be arranged by contacting
 //  Grodans Paradis AB at info@grodansparadis.com, http://www.grodansparadis.com
-// 
+//
 
 #ifndef _VSCPWORKS_H_
 #define _VSCPWORKS_H_
@@ -102,7 +102,7 @@
 
 #ifdef WIN32
 #define VCSP_RSCV_FIELD_DEFAULT_HEIGHT                      20
-#else   
+#else
 #define VCSP_RSCV_FIELD_DEFAULT_HEIGHT                      20
 #endif
 
@@ -188,55 +188,55 @@ typedef struct {
 
     // General
     wxString m_strPathTemp;         // Path to temporary storage
-    
+
     // Logfile
     bool m_bEnableLog;              // True for writes to logfile
     wxString m_strPathLogFile;      // Path to logfile
     uint8_t m_logLevel;             // Log level
-    
+
     // Mainframe
     int m_sizeMainFrameWidth;       // Initial main frame width
     int m_sizeMainFrameHeight;      // Initial main frame height
     int m_xposMainFrame;            // Initial main frame x position
     int m_yposMainFrame;            // Initial main frame y position
-    
+
     // Session window
     int m_sizeSessionFrameWidth;    // Initial session frame width
     int m_sizeSessionFrameHeight;   // Initial session frame height
-    
+
     // Configuration window
     int m_sizeConfigurationFrameWidth;    // Initial configuration frame width
     int m_sizeConfigurationFrameHeight;   // Initial configuration frame height
-    
+
 /*
     // CANAL Frames
     wxColour m_CanalRcvFrameTextColour;        // Background colour for CANAL grid
     wxColour m_CanalRcvFrameBgColour;          // Background colour for CANAL grid
     wxColour m_CanalRcvFrameLineColour;        // Foreground colour for CANAL grid
     wxFont m_CanalRcvFrameFont;                // Font for CANAL grid
-    
+
     bool m_CanalRcvShowField[8];               // Flag to show field.
     wxString m_CanalRcvFieldText[8];           // Header text for field
     unsigned char m_CanalRcvFieldOrder[8];     // Order for fields
     unsigned short m_CanalRcvFieldWidth[8];     // Width for fields
-    
+
     wxColour m_CanalTrmitFrameTextColour;      // Background colour for CANAL transmit grid
     wxColour m_CanalTrmitFrameBgColour;        // Background colour for CANAL transmit grid
     wxColour m_CanalTrmitFrameLineColour;      // Foreground colour for CANAL transmit grid
     wxFont m_CanalTrmitFrameFont;              // Font for VSCP grid
-    
+
     bool m_CanalTrmitShowField[5];              // Flag to show field.
     wxString m_CanalTrmitFieldText[5];          // Header text for field
     unsigned char m_CanalTrmitFieldOrder[5];    // Order for fields
     unsigned short m_CanalTrmitFieldWidth[5];   // Order for fields
 */
 
-    
+
     // VSCP Frames
     wxColour m_VscpRcvFrameRxTextColour;      // Text colour for VSCP grid rx Line
     wxColour m_VscpRcvFrameRxBgColour;        // Background colour for VSCP grid rx line
     wxColour m_VscpRcvFrameTxTextColour;      // Text colour for VSCP grid tx Line
-    wxColour m_VscpRcvFrameTxBgColour;        // Background colour for VSCP grid tx line		
+    wxColour m_VscpRcvFrameTxBgColour;        // Background colour for VSCP grid tx line
     wxColour m_VscpRcvFrameLineColour;        // Line colour for VSCP grid
     wxFont m_VscpRcvFrameFont;                // Font for VSCP grid
     int m_VscpRcvFrameRowLineHeight;          // Line height for rows
@@ -259,16 +259,16 @@ typedef struct {
     bool m_bAutoscollRcv;                     // True to scroll upp so last added row
                                               // always is shown
     bool m_VscpRcvFrameRxbPyamas;             // every second row grey if true
-    
+
     bool m_UseSymbolicNames;                  // Use symbolic names for class and type
-    
+
     // Interfaces
     LIST_CANAL_IF m_canalIfList;
     LIST_VSCP_IF m_vscpIfList;
 
     // DLL communication settings
     uint8_t  m_CANALRegMaxRetries;              // Max number of retries to read a register.
-    uint32_t m_CANALRegResendTimeout;           // Timeout before register read retries    
+    uint32_t m_CANALRegResendTimeout;           // Timeout before register read retries
     uint32_t m_CANALRegErrorTimeout;            // Timeout before register read is considered and error
 
     // TCP/IP communication settings
@@ -277,11 +277,11 @@ typedef struct {
     uint8_t	m_TCPIPRegMaxRetries;               // Max number of retries to read a register.
     uint32_t m_TCPIPRegResendTimeout;           // Timeout before register read retries
     uint32_t m_TCPIPRegErrorTimeout;            // Timeout before register read is considered and error
-    
+
     // device configuration
     uint8_t m_Numberbase;                       // Number base for register values
 
-    // Confirm switch 
+    // Confirm switch
     bool m_bConfirmDelete;                      // Must confirm session rx/tx etc list delete
 
     MdfProxyHash m_mfProxyHashTable;            // Translate devices stored URL to whatever is read from
@@ -292,7 +292,7 @@ typedef struct {
     uint32_t m_manufacturerId;
     uint32_t m_manufacturerSubId;
 
-} appConfiguration;	
+} appConfiguration;
 
 
 
@@ -317,7 +317,7 @@ class worksMulticastThread;
  */
 
 class VscpworksApp: public wxApp
-{    
+{
   DECLARE_CLASS( VscpworksApp )
   DECLARE_EVENT_TABLE()
 
@@ -334,7 +334,7 @@ public:
 
   /// Called on exit
   virtual int OnExit();
-  
+
   /*!
     Log message
   */
@@ -356,13 +356,13 @@ public:
     @return true on success.
   */
   bool readConfiguration( void );
-  
+
   /*!
     Write XML configuration to file
     @return true on success.
   */
   bool writeConfiguration( void );
-  
+
  /*!
     Read a level i register
     @param pcsw pointer to superwrapper class.
@@ -372,10 +372,10 @@ public:
     @return True on success. False otherwise.
   */
   bool readLevel1Register( CCanalSuperWrapper *pcsw,
-                            unsigned char nodeid, 
-                            unsigned char reg = 0xd0, 
+                            unsigned char nodeid,
+                            unsigned char reg = 0xd0,
                             unsigned char *pcontent = NULL );
-    
+
   /*!
     Write a level i register
     @param pcsw pointer to superwrapper class.
@@ -385,10 +385,10 @@ public:
     @return True on success. False otherwise.
   */
   bool writeLevel1Register( CCanalSuperWrapper *pcsw,
-                              unsigned char nodeid, 
-                              unsigned char reg, 
+                              unsigned char nodeid,
+                              unsigned char reg,
                               unsigned char *pcontent );
-      
+
   /*!
     Read a level 2 register
     @param pcsw pointer to superwrapper class.
@@ -397,14 +397,14 @@ public:
     @param reg Register to read.
     @param pcontent Pointer to read value.
     @return True on success. False otherwise.
-  */    
-  bool readLevel2Register( CCanalSuperWrapper *pcsw, 
-                            uint8_t *interfaceGUID, 
-                            uint32_t reg = 0xd0, 
+  */
+  bool readLevel2Register( CCanalSuperWrapper *pcsw,
+                            uint8_t *interfaceGUID,
+                            uint32_t reg = 0xd0,
                             uint8_t *pcontent = NULL,
                             uint8_t *pdestGUID = NULL,
-                            bool bLevel2 = false );  
-                            
+                            bool bLevel2 = false );
+
   /*!
     Write a level 2 register
     @param pcsw pointer to superwrapper class.
@@ -413,13 +413,13 @@ public:
     @param reg Register to write.
     @param pcontent Pointer to data to write. Return read data.
     @return True on success. False otherwise.
-  */    
+  */
   bool writeLevel2Register( CCanalSuperWrapper *pcsw,
-                              uint8_t *interfaceGUID, 
-                              uint32_t reg, 
+                              uint8_t *interfaceGUID,
+                              uint32_t reg,
                               uint8_t *pcontent,
                               uint8_t *pdestGUID = NULL,
-                              bool bLevel2 = false );   
+                              bool bLevel2 = false );
 
     /*!
         Make a string look nicer with linebreaks etc
@@ -430,30 +430,30 @@ public:
     wxString formatString( const wxString& str, const unsigned int width = 80 );
 
 
-    
-  
+
+
   /*!
     Get Decision Matrix info for a Level I Node
     @param pcsw Pointer to CANAL super wrapper
     @param nodeid id for node whos info should be fetched.
     @param pdata Pointer to returned data. Array of eight bytes.
   */
-  bool getLevel1DmInfo( CCanalSuperWrapper *pcsw, 
-                          const unsigned char nodeid, 
+  bool getLevel1DmInfo( CCanalSuperWrapper *pcsw,
+                          const unsigned char nodeid,
                           unsigned char *pdata );
-             
+
   /*!
     Get Decision Matrix info for a Level II Node
     @param pcsw Pointer to CANAL super wrapper
-    @param interfaceGUID GUID + nodeid for node whos info should be 
+    @param interfaceGUID GUID + nodeid for node whos info should be
             fetched.
     @param pdata Pointer to returned data. Array of eight bytes.
   */
   bool getLevel2DmInfo( CCanalSuperWrapper *pcsw,
-                          unsigned char *interfaceGUID, 
+                          unsigned char *interfaceGUID,
                           unsigned char *pdata,
                           bool bLevel2 = false );
-  
+
   /*!
     Get a HTML string with clear text register information
     @param pcsw Pointer to CANAL super wrapper
@@ -509,11 +509,11 @@ public:
         @param pcsw Pointer to CANAL super wrapper
         @param pid Pointer to id. Either a one byte nickname if bLevel = false
                 or a 16 byte GUID if bLevel2 = true.
-        @param bLevel2 True if pid points to a full  GUID false if pid points to one 
+        @param bLevel2 True if pid points to a full  GUID false if pid points to one
                 byte nickname.
   */
-  wxString getMDFfromDevice( CCanalSuperWrapper *pcsw, 
-                                uint8_t *pid, 
+  wxString getMDFfromDevice( CCanalSuperWrapper *pcsw,
+                                uint8_t *pid,
                                 bool bLevel2 = false,
                                 bool bSilent = false );
 
@@ -527,21 +527,16 @@ public:
 
   /*!
     This variable is true if the configuration is fetched from
-    the global paces /progdata instead of user data location. 
+    the global paces /progdata instead of user data location.
     Typically this happesn when a windows machine has no password.
   */
   bool m_bUseGlobalConfig;
 
-  /*!
-    Pointer to the multicast worker thread
-  */
-  worksMulticastThread *m_pmulticastWorkerThread;
-  pthread_mutex_t m_mutexmulticastWorkerThread;
 
 };
 
 /*!
- * Application instance declaration 
+ * Application instance declaration
  */
 
 ////@begin declare app

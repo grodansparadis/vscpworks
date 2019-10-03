@@ -6584,7 +6584,7 @@ int frmDeviceConfig::getRegisterGridRow(uint32_t reg, uint16_t page)
 bool frmDeviceConfig::fetchIterfaceGUID(void) 
 {
     wxString str;
-    std::deque<std::string> ifarray;
+    wxArrayString ifarray;
 
     if (!m_csw.isOpen()) {
         wxMessageBox(_("TCP/IP connection to daemon must be open."));
@@ -6602,9 +6602,9 @@ bool frmDeviceConfig::fetchIterfaceGUID(void)
         if ( VSCP_ERROR_SUCCESS ==
              m_csw.getTcpIpInterface()->doCmdInterfaceList( ifarray ) ) {
 
-            if ( ifarray.size() ) {
+            if ( ifarray.Count() ) {
 
-                for ( unsigned int i = 0; i < ifarray.size(); i++ ) {
+                for ( unsigned int i = 0; i < ifarray.Count(); i++ ) {
 
                     wxStringTokenizer tkz( ifarray[ i ], _( "," ) );
                     wxString strOrdinal = tkz.GetNextToken();

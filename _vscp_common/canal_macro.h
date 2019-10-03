@@ -1,10 +1,10 @@
-// canal_macro.h
+// udpReceiveThread.cpp
 //
 // This file is part of the VSCP (http://www.vscp.org) 
 //
 // The MIT License (MIT)
 // 
-// Copyright (C) 2000-2019 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
+// Copyright (c) 2000-2018 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,16 +31,16 @@
 #define LOCK_MUTEX( x )         ( WaitForSingleObject( x, INFINITE ) )
 #define UNLOCK_MUTEX( x )       ( ReleaseMutex( x ) )
 #define SLEEP( x )              ( Sleep( x ) )
+#define SYSLOG( a, b )          ( wxLogError( b ) )
 #define BZERO( a )              ( memset( ( _u8* )&a, 0, sizeof( a ) ) )	
-#define SYSLOG( a, b )                    
 
 #else
 
 #define LOCK_MUTEX( x )         ( pthread_mutex_lock( &x ) )
 #define UNLOCK_MUTEX( x )       ( pthread_mutex_unlock( &x ) )
 #define SLEEP( x )              ( usleep( ( 1000 * x ) ) )      // ms
-#define BZERO( a )              ( bzero( ( _u8* )&a, sizeof( a ) ) )
 #define SYSLOG( a, b )          ( syslog( a, b ) )
+#define BZERO( a )              ( bzero( ( _u8* )&a, sizeof( a ) ) )
 
 #endif
 

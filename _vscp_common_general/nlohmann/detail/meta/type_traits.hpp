@@ -6,7 +6,6 @@
 #include <utility> // declval
 
 #include <nlohmann/json_fwd.hpp>
-#include <nlohmann/detail/iterators/iterator_traits.hpp>
 #include <nlohmann/detail/meta/cpp_future.hpp>
 #include <nlohmann/detail/meta/detected.hpp>
 #include <nlohmann/detail/macro_scope.hpp>
@@ -132,10 +131,10 @@ template <typename T, typename = void>
 struct is_iterator_traits : std::false_type {};
 
 template <typename T>
-struct is_iterator_traits<iterator_traits<T>>
+struct is_iterator_traits<std::iterator_traits<T>>
 {
   private:
-    using traits = iterator_traits<T>;
+    using traits = std::iterator_traits<T>;
 
   public:
     static constexpr auto value =
@@ -252,7 +251,7 @@ struct is_compatible_array_type_impl <
 // Therefore it is detected as a CompatibleArrayType.
 // The real fix would be to have an Iterable concept.
     not is_iterator_traits<
-    iterator_traits<CompatibleArrayType>>::value >>
+    std::iterator_traits<CompatibleArrayType>>::value >>
 {
     static constexpr bool value =
         std::is_constructible<BasicJsonType,
@@ -289,7 +288,7 @@ struct is_constructible_array_type_impl <
         // Therefore it is detected as a ConstructibleArrayType.
         // The real fix would be to have an Iterable concept.
         not is_iterator_traits <
-        iterator_traits<ConstructibleArrayType >>::value and
+        std::iterator_traits<ConstructibleArrayType >>::value and
 
         (std::is_same<typename ConstructibleArrayType::value_type, typename BasicJsonType::array_t::value_type>::value or
          has_from_json<BasicJsonType,

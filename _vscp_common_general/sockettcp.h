@@ -9,8 +9,7 @@
 // Copyright (c) 2013-2017 the Civetweb developers
 //
 // Adopted for VSCP, Small changes  additions
-// Copyright (C) 2018-2019 Ake Hedman, Grodans Paradis AB
-// <info@grodansparadis.com>
+// Copyright (c) 2018 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal

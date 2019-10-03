@@ -412,17 +412,18 @@ bool frmScanforDevices::enableInterface(void)
             ///////////////////////////////////////////
 
             // Get the interface list
-            std::deque<std::string> strarray;
+            wxString wxstr;
+            wxArrayString strarray;
 
             // Get VSCP interface list
             progressDlg.Pulse(_("TCP/IP Interface Open"));
 
-            m_csw.getTcpIpInterface()->doCmdInterfaceList( strarray );
+            m_csw.getTcpIpInterface()->doCmdInterfaceList(strarray);
 
-            if (strarray.size()) {
+            if (strarray.Count()) {
 
                 //m_comboNodeID->Clear();
-                for (unsigned int i = 0; i < strarray.size(); i++) {
+                for (unsigned int i = 0; i < strarray.Count(); i++) {
                     wxStringTokenizer tkz(strarray[i], _(","));
                     wxString strOrdinal = tkz.GetNextToken();
                     wxString strType = tkz.GetNextToken();
@@ -1262,15 +1263,15 @@ bool frmScanforDevices::fetchIterfaceGUID(void)
     }
 
     // Get the interface list
-    std::deque<std::string> ifarray;
+    wxArrayString ifarray;
     if (CANAL_ERROR_SUCCESS ==
-            m_csw.getTcpIpInterface()->doCmdInterfaceList( ifarray ) ) {
+            m_csw.getTcpIpInterface()->doCmdInterfaceList(ifarray)) {
 
-        if  (ifarray.size() ) {
+        if (ifarray.Count()) {
 
-            for ( unsigned int i = 0; i < ifarray.size(); i++ ) {
+            for (unsigned int i = 0; i < ifarray.Count(); i++) {
 
-                wxStringTokenizer tkz( ifarray[ i ], _(","));
+                wxStringTokenizer tkz(ifarray[ i ], _(","));
                 wxString strOrdinal = tkz.GetNextToken();
                 wxString strType = tkz.GetNextToken();
                 wxString strIfGUID = tkz.GetNextToken();

@@ -4,7 +4,7 @@
 //
 // The MIT License (MIT)
 // 
-// Copyright (C) 2000-2019 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
+// Copyright (c) 2000-2018 Ake Hedman, Grodans Paradis AB <info@grodansparadis.com>
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,10 @@
 // SOFTWARE.
 //
 
-#ifndef _VSCP_REGISTER_H_
-#define _VSCP_REGISTER_H_
+#ifndef _REGISTER_H_
+#define _REGISTER_H_
 
-#include <set>
-
+#include "wx/wx.h"
 #include <vscp.h>
 #include <vscp_class.h>
 #include <vscp_type.h>
@@ -115,7 +114,7 @@ public:
     */
     ~CStandardRegisters( void );
 
-    void getMDF( std::string& remoteFile );
+    void getMDF( wxString& remoteFile );
 
     const uint8_t *getGUID( void ) { return ( m_reg + 0xD0 - 0x80 ); };
     
@@ -131,7 +130,7 @@ public:
 
     uint8_t getSubMinorVersion( void ) { return m_reg[ 0x96 - 0x80 ]; };
 
-    std::string getFirmwareVersionString( void );
+    wxString getFirmwareVersionString( void );
 
     uint16_t getPage( void ) { return ( m_reg[ 0x92 - 0x80 ] * 256 +
                                     m_reg[ 0x93 - 0x80 ] ); };
@@ -195,82 +194,44 @@ private:
 
 
 /*!
-    \class CRegistersPage
-    \brief Encapsulates one page of user registers of a device
-*/
-class CRegisterPage
-{
-
-public:
-    CRegisterPage( uint8_t level = VSCP_LEVEL1 );
-    ~CRegisterPage();
-
-    /*!
-        Read register content on a register page.
-        Register must exist.
-
-        @param reg Register to read
-        @return Register content or -1 on failure.
-    */
-    int readReg( uint32_t reg );
-
-    /*!
-        Write value to a register on a register page.
-        Register is created if it does not exist.
-
-        @param reg Register to write to.
-        @param value to write to register.
-        @return True if write was successful, false if not.
-    */
-   bool writeReg( uint32_t reg, uint8_t value );
-
-private:
-
-    // VSCP level 
-    uint8_t m_level;
-
-    // Defined registers on a user page
-    std::map<uint32_t,uint8_t> m_registers;
-};
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-/*!
     \class CUserRegisters
-    \brief Encapsulates the user registers for a Level I or Level II device
+    \brief Encapsulates the user registers of a device
 */
 class CUserRegisters  
 {
 
 public:
-    CUserRegisters( uint8_t level = VSCP_LEVEL1 );
+    CUserRegisters();
     ~CUserRegisters();
 
-    /*!
-        Get the value for a specific register on a page. Register must be previously
-        defined.
-        @return Register content (0-255) if page and register is valid. Otherwise -1
-                is returned indicating an error.
-    */
-    int readReg( uint32_t reg, uint32_t page = 0 );
+    // Init the standard registers
+    void init( wxArrayLong &pagesArray );
 
     /*!
-        Write data to a register. If the register is not yet defined
-        it is added.
-
-        @param page Page for register. (0-127 for Level I, 0 - 0xfffffff0 for
-                Level II device. )
-        @param reg Register to write to. (0-127 for Level I, 0 - 0xffffffff for
-                Level II device. )
-        @param value Value to write to register.
-        @return true for a valid write. An invalid write means registers are 
-                out of bound.
+        Return a pointer to the register storage
     */
-    bool writeReg( uint32_t reg, uint32_t page, uint8_t value );
+    unsigned char *getRegs( void ) { return m_reg; };
 
-  
+    /*!
+        Get array of pages
+    */
+    wxArrayLong &getArrayOfPages( void ) { return m_arrayPages; };
+
+    /*!
+        Get registers for a specific page
+    */
+    uint8_t *getRegs4Page( uint16_t page );
+
+    /*!
+        Get the value for a specific register on a page
+    */
+    uint8_t getValue( uint16_t page, uint8_t offset );
+
+
+    /*!
+        Set the value for a specific register on a page
+    */
+    uint8_t setValue( uint16_t page, uint8_t offset, uint8_t value );
 
     /*!
         Get abstraction value from registers into string value.
@@ -279,7 +240,7 @@ public:
         @return true on success.
     */
     bool abstractionValueFromRegsToString( CMDF_Abstraction *pAbstraction, 
-                                                std::string &strValue,
+                                                wxString &strValue,
                                                 uint8_t format = FORMAT_ABSTRACTION_DECIMAL  );
     
     /*
@@ -289,20 +250,20 @@ public:
      * @return true on success.
      */
     bool abstractionValueFromStringToRegs( CMDF_Abstraction *pAbstraction, 
-                                                std::string &strValue );
+                                                wxString &strValue );
 
 private:
 
     /*! 
-        Tells if thie is Level I or Level II registers
+        All registers are here in chunks of 128 bytes
     */
-    uint8_t m_level; 
+    uint8_t *m_reg;  
 
-    // set with valid register pages
-    std::set<long> m_pages;
+    /// Size for the register arrays
+    uint32_t m_size;
 
-    // pages {page number, defined registers}
-    std::map<uint32_t,CRegisterPage *> m_registerPages;
+    // Array with valid register pages
+    wxArrayLong m_arrayPages;
 };
 
 
