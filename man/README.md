@@ -1,7 +1,19 @@
-# WARNING
+# Unix man pages
 
-Files in this folder are copies of files copied from the main [VSCP repository](https://github.com/grodansparadis/vscp) folder *src/vscp/common*
+Man pages are written in the markdown format and converted to correct format with pandoc.
 
-You can updated the files to the latest version using the script *update_common_files.sh* but you should know what you do and why an update it is needed.
+Generate man-pages with
 
-To update you need to have the main repository cloned on your disk and an environment variable *VSCP_PATH* set that points to the cloned folder.
+> pandoc -s -t man test.1.md -o test.1
+
+Local man pages can be viewed with
+
+> man ./my_man_page
+
+Process is described [here](<https://unix.stackexchange.com/questions/6891/how-can-i-add-man-page-entries-for-my-own-power-tools>)
+
+
+## Install manpages
+
+> sudo cp examplecommand.1 /usr/local/share/man/man1/
+> sudo mandb
