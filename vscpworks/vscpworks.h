@@ -103,7 +103,7 @@
 #ifdef WIN32
 #define VCSP_RSCV_FIELD_DEFAULT_HEIGHT                      20
 #else
-#define VCSP_RSCV_FIELD_DEFAULT_HEIGHT                      20
+#define VCSP_RSCV_FIELD_DEFAULT_HEIGHT                      25
 #endif
 
 #define VCSP_RSCV_FIELD_WIDTH_0                             30

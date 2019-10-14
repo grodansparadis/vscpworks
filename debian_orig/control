@@ -1,4 +1,4 @@
-Source: vscpl2drv-logger
+Source: vscpworks
 Section: utils
 Priority: optional
 Maintainer: Ake Hedman <akhe@grodansparadis.com>
@@ -8,10 +8,9 @@ Homepage: https://www.vscp.org
 Vcs-Browser: https://github.com/grodansparadis/vscpl2drv-logger
 Vcs-Git: https://github.com/grodansparadis/vscpl2drv-logger.git
 
-Package: vscpl2drv-logger
+Package: vscpworks
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc6-dev, libexpat (>= 2),
- libssl-dev (>= 1.1)
-Description: Level I logger driver for the VSCP daemon
- A driver that can be added to the VSCP server to get logging of level I
- events on a specific file. Filters can be set.
+ libssl-dev (>= 1.1), libwxgtk3.0-dev (>=3.0)
+Description: This is a multi tool for VSCP & Friends. It allow for configuration,
+ bootloading, search etc for remote devices.

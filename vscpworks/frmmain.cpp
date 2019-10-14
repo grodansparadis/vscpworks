@@ -1,41 +1,41 @@
 /////////////////////////////////////////////////////////////////////////////
 // Name:        frmmain.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ake Hedman
-// Modified by: 
+// Modified by:
 // Created:     Mon 16 Apr 2007 18:19:49 CEST
-//       
-// Copyright:   (C) 2007-2018 
+//
+// Copyright:   (C) 2007-2018
 // Ake Hedman, Grodans Paradis AB, <akhe@grodansparadis.com>
-// Licence:     
+// Licence:
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version
 // 2 of the License, or (at your option) any later version.
-// 
-// This file is part of the VSCP (http://www.vscp.org) 
-// 
+//
+// This file is part of the VSCP (http://www.vscp.org)
+//
 // This file is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this file see the file COPYING.  If not, write to
 // the Free Software Foundation, 59 Temple Place - Suite 330,
 //  Boston, MA 02111-1307, USA.
-// 
+//
 //  As a special exception, if other files instantiate templates or use macros
 //  or inline functions from this file, or you compile this file and link it
 //  with other works to produce a work based on this file, this file does not
 //  by itself cause the resulting work to be covered by the GNU General Public
 //  License. However the source code for this file must still be made available
 //  in accordance with section (3) of the GNU General Public License.
-// 
+//
 //  This exception does not invalidate any other reasons why a work based on
 //  this file might be covered by the GNU General Public License.
-// 
-//  Alternative licenses for VSCP & Friends may be arranged by contacting 
+//
+//  Alternative licenses for VSCP & Friends may be arranged by contacting
 //  Grodans Paradis AB at info@grodansparadis.com, http://www.grodansparadis.com
 //
 
@@ -58,9 +58,9 @@
 #include "wx/socket.h"
 
 #ifdef WIN32
-//#include <sys/types.h>   // for type definitions 
+//#include <sys/types.h>   // for type definitions
 //#include <winsock2.h>
-//#include <ws2tcpip.h>    // for win socket structs 
+//#include <ws2tcpip.h>    // for win socket structs
 #endif
 
 #include "merlin.h"
@@ -139,20 +139,20 @@ RenderTimer::RenderTimer( frmMain *pwnd, worksMulticastThread *pThread ) : wxTim
 void RenderTimer::Notify()
 {
     bool bRefresh = false;
-    
+
     /* TODO
     m_multicastThread->m_knownNodes.m_mutexKnownNodes.Lock();
-    
+
     if ( m_nLastKnownNodes < m_multicastThread->m_knownNodes.m_nodes.size() ) {
 
         bRefresh = true;    // We should update stuff
 
         VSCP_HASH_KNOWN_NODES::iterator it;
-        for ( it = m_multicastThread->m_knownNodes.m_nodes.begin(); 
+        for ( it = m_multicastThread->m_knownNodes.m_nodes.begin();
                 it != m_multicastThread->m_knownNodes.m_nodes.end(); ++it ) {
             wxString key = it->first;
             CNodeInformation *pNodeInfo = it->second;
-            
+
             if ( NULL != pNodeInfo ) {
 
                 if ( !pNodeInfo->m_bUpdated ) {
@@ -184,10 +184,10 @@ void RenderTimer::Notify()
             }
 
         }
-        
+
         // Update numbers
-        m_nLastKnownNodes = m_multicastThread->m_knownNodes.m_nodes.size();    
-        
+        m_nLastKnownNodes = m_multicastThread->m_knownNodes.m_nodes.size();
+
     }
 
     if ( m_nLastKnownServers < m_multicastThread->m_knownNodes.m_servers.size() ) {
@@ -195,11 +195,11 @@ void RenderTimer::Notify()
         bRefresh = true;    // We should update stuff
 
         VSCP_HASH_KNOWN_SERVERS::iterator it;
-        for ( it = m_multicastThread->m_knownNodes.m_servers.begin(); 
+        for ( it = m_multicastThread->m_knownNodes.m_servers.begin();
                 it != m_multicastThread->m_knownNodes.m_servers.end(); ++it ) {
             wxString key = it->first;
             CVSCPServerInformation *pNodeInfo = it->second;
- 
+
             if ( NULL != pNodeInfo ) {
 
                 if ( !pNodeInfo->m_bUpdated ) {
@@ -264,40 +264,40 @@ void RenderTimer::start()
 
 frmMain::frmMain()
 {
-    m_timerDiscovery = new RenderTimer( this, wxGetApp().m_pmulticastWorkerThread );
+    /* m_timerDiscovery = new RenderTimer( this, wxGetApp().m_pmulticastWorkerThread );
 
     Init();
-    m_timerDiscovery->start();
+    m_timerDiscovery->start(); */
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // frmMain ctor
 //
 
-frmMain::frmMain( wxWindow* parent, 
-                    wxWindowID id, 
-                    const wxString& caption, 
-                    const wxPoint& pos, 
-                    const wxSize& size, 
+frmMain::frmMain( wxWindow* parent,
+                    wxWindowID id,
+                    const wxString& caption,
+                    const wxPoint& pos,
+                    const wxSize& size,
                     long style )
 {
     // Create the timer object
-    m_timerDiscovery = new RenderTimer( this, wxGetApp().m_pmulticastWorkerThread );
-    
+    //m_timerDiscovery = new RenderTimer( this, wxGetApp().m_pmulticastWorkerThread );
+
     Init();
     Create( parent, id, caption, pos, size, style );
-    m_timerDiscovery->start();
+    //m_timerDiscovery->start();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // Create
 //
 
-bool frmMain::Create( wxWindow* parent, 
-                            wxWindowID id, 
-                            const wxString& caption, 
-                            const wxPoint& pos, 
-                            const wxSize& size, 
+bool frmMain::Create( wxWindow* parent,
+                            wxWindowID id,
+                            const wxString& caption,
+                            const wxPoint& pos,
+                            const wxSize& size,
                             long style )
 {
     wxFrame::Create( parent, id, caption, pos, size, style );
@@ -313,7 +313,7 @@ bool frmMain::Create( wxWindow* parent,
 
 frmMain::~frmMain()
 {
-    delete m_timerDiscovery;
+    //delete m_timerDiscovery;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -324,11 +324,11 @@ void frmMain::Init()
 {
     if ( !::wxDirExists( wxStandardPaths::Get().GetUserDataDir() ) ) {
         if ( !::wxMkdir( wxStandardPaths::Get().GetUserDataDir() ) ) {
-            wxMessageBox( _("Failed to create directory. ") + 
+            wxMessageBox( _("Failed to create directory. ") +
                             wxStandardPaths::Get().GetUserDataDir() );
         }
     }
-    
+
 }
 
 
@@ -337,90 +337,90 @@ void frmMain::Init()
 //
 
 void frmMain::CreateControls()
-{    
+{
     frmMain* itemMainFrame = this;
 
     wxMenuBar* menuBar = new wxMenuBar;
     wxMenu* itemMenu3 = new wxMenu;
 
     itemMenu3->Append( ID_MENUITEM_OPEN_VSCP_SESSION,
-                        _("VSCP client window..."), 
+                        _("VSCP client window..."),
                         wxEmptyString, wxITEM_NORMAL);
-    itemMenu3->Append( ID_MENUITEM_DEVICE_CONFIGURATION, 
-                        _("VSCP device configuration window..."), 
+    itemMenu3->Append( ID_MENUITEM_DEVICE_CONFIGURATION,
+                        _("VSCP device configuration window..."),
                         wxEmptyString, wxITEM_NORMAL);
-    itemMenu3->Append( ID_MENUITEM_MDF_EDITOR, 
-                        _("VSCP MDF Editor..."), 
+    itemMenu3->Append( ID_MENUITEM_MDF_EDITOR,
+                        _("VSCP MDF Editor..."),
                         wxEmptyString, wxITEM_NORMAL);
-    /*itemMenu3->Append( ID_MENUITEM_DM_EDITOR, 
-                        _("VSCP Daemon Decision Matrix Editor..."), 
+    /*itemMenu3->Append( ID_MENUITEM_DM_EDITOR,
+                        _("VSCP Daemon Decision Matrix Editor..."),
                         wxEmptyString, wxITEM_NORMAL);*/
-    /*itemMenu3->Append( ID_MENUITEM_VARIABLE_EDITOR, 
-                        _("VSCP Daemon Variable Editor..."), 
+    /*itemMenu3->Append( ID_MENUITEM_VARIABLE_EDITOR,
+                        _("VSCP Daemon Variable Editor..."),
                         wxEmptyString, wxITEM_NORMAL);*/
     itemMenu3->AppendSeparator();
-    itemMenu3->Append( ID_MENUITEM_SCAN, 
-                        _("Scan for devices..."), 
+    itemMenu3->Append( ID_MENUITEM_SCAN,
+                        _("Scan for devices..."),
                         wxEmptyString, wxITEM_NORMAL);
-    itemMenu3->Append( ID_MENUITEM_BOOTLOADER_WIZARD, 
-                        _("VSCP bootloader wizard..."), 
-                        wxEmptyString, 
+    itemMenu3->Append( ID_MENUITEM_BOOTLOADER_WIZARD,
+                        _("VSCP bootloader wizard..."),
+                        wxEmptyString,
                         wxITEM_NORMAL);
     itemMenu3->AppendSeparator();
-    /*itemMenu3->Append( ID_MENUITEM_SIMPLE_UI_DESIGNER, 
-                        _("VSCP Simple UI designer..."), 
-                        wxEmptyString, 
+    /*itemMenu3->Append( ID_MENUITEM_SIMPLE_UI_DESIGNER,
+                        _("VSCP Simple UI designer..."),
+                        wxEmptyString,
                         wxITEM_NORMAL);*/
     itemMenu3->AppendSeparator();
-    itemMenu3->Append( ID_MENU_VSCPWORKS_EXIT, 
-                        _("Exit"), 
-                        wxEmptyString, 
+    itemMenu3->Append( ID_MENU_VSCPWORKS_EXIT,
+                        _("Exit"),
+                        wxEmptyString,
                         wxITEM_NORMAL);
-    
+
     // VSCP Menu
     menuBar->Append(itemMenu3, _("VSCP"));
     wxMenu* itemMenu17 = new wxMenu;
-    itemMenu17->Append( ID_MENUITEM_CONFIGURATION, 
-                            _("Settings..."), 
-                            wxEmptyString, 
+    itemMenu17->Append( ID_MENUITEM_CONFIGURATION,
+                            _("Settings..."),
+                            wxEmptyString,
                             wxITEM_NORMAL);
-    
+
     // Tools menu
     menuBar->Append(itemMenu17, _("Tools"));
 
     wxMenu* itemMenu21 = new wxMenu;
-    itemMenu21->Append( ID_MENUITEM33, 
-                            _("VSCP-Works Help"), 
-                            wxEmptyString, 
+    itemMenu21->Append( ID_MENUITEM33,
+                            _("VSCP-Works Help"),
+                            wxEmptyString,
                             wxITEM_NORMAL);
-    itemMenu21->Append( ID_MENUITEM34, 
-                            _("Frequently Asked Questions"), 
-                            wxEmptyString, 
+    itemMenu21->Append( ID_MENUITEM34,
+                            _("Frequently Asked Questions"),
+                            wxEmptyString,
                             wxITEM_NORMAL);
-    itemMenu21->Append( ID_MENUITEM35, 
-                            _("Keyboard shortcuts"), 
-                            wxEmptyString, 
-                            wxITEM_NORMAL);
-    itemMenu21->AppendSeparator();
-    itemMenu21->Append( ID_MENUITEM_THANKS, 
-                            _("Thanks..."), 
-                            wxEmptyString, 
-                            wxITEM_NORMAL);
-    itemMenu21->Append( ID_MENUITEM_CREDITS, 
-                            _("Credits..."), 
-                            wxEmptyString, 
+    itemMenu21->Append( ID_MENUITEM35,
+                            _("Keyboard shortcuts"),
+                            wxEmptyString,
                             wxITEM_NORMAL);
     itemMenu21->AppendSeparator();
-    itemMenu21->Append( ID_MENUITEM_VSCP_SITE, 
-                            _("Go to VSCP site"), 
-                            wxEmptyString, 
+    itemMenu21->Append( ID_MENUITEM_THANKS,
+                            _("Thanks..."),
+                            wxEmptyString,
+                            wxITEM_NORMAL);
+    itemMenu21->Append( ID_MENUITEM_CREDITS,
+                            _("Credits..."),
+                            wxEmptyString,
                             wxITEM_NORMAL);
     itemMenu21->AppendSeparator();
-    itemMenu21->Append( ID_MENUITEM_ABOUT, 
-                            _("About"), 
-                            wxEmptyString, 
+    itemMenu21->Append( ID_MENUITEM_VSCP_SITE,
+                            _("Go to VSCP site"),
+                            wxEmptyString,
                             wxITEM_NORMAL);
-    
+    itemMenu21->AppendSeparator();
+    itemMenu21->Append( ID_MENUITEM_ABOUT,
+                            _("About"),
+                            wxEmptyString,
+                            wxITEM_NORMAL);
+
     menuBar->Append (itemMenu21, _("Help") );
 
     itemMainFrame->SetMenuBar( menuBar );
@@ -428,43 +428,43 @@ void frmMain::CreateControls()
     // Statusbar
     m_pitemStatusBar = new wxStatusBar;
     m_pitemStatusBar->Create( itemMainFrame,
-                                ID_STATUSBAR, 
+                                ID_STATUSBAR,
                                 wxST_SIZEGRIP|wxNO_BORDER );
     //m_pitemStatusBar->SetFieldsCount( 2 );
     itemMainFrame->SetStatusBar( m_pitemStatusBar );
 
     // Toolbar
-    wxToolBar* itemToolBar = 
-                CreateToolBar( wxTB_FLAT | 
-                                    wxTB_HORIZONTAL | 
-                                    wxTB_NODIVIDER, 
+    wxToolBar* itemToolBar =
+                CreateToolBar( wxTB_FLAT |
+                                    wxTB_HORIZONTAL |
+                                    wxTB_NODIVIDER,
                                     ID_TOOLBAR );
     wxBitmap itemtool34Bitmap( itemMainFrame->GetBitmapResource( wxT("open.xpm") ) );
     wxBitmap itemtool34BitmapDisabled;
     itemToolBar->AddTool( ID_TOOL,
-                                wxEmptyString, 
-                                itemtool34Bitmap, 
-                                itemtool34BitmapDisabled, 
-                                wxITEM_NORMAL, 
-                                wxEmptyString, 
+                                wxEmptyString,
+                                itemtool34Bitmap,
+                                itemtool34BitmapDisabled,
+                                wxITEM_NORMAL,
+                                wxEmptyString,
                                 wxEmptyString );
     itemToolBar->Realize();
     itemMainFrame->SetToolBar( itemToolBar );
 
-    
+
     wxPanel* itemPanel = new wxPanel;
     itemPanel->Create( itemMainFrame,
-                            ID_PANEL1, 
-                            wxDefaultPosition, 
-                            wxDefaultSize, 
+                            ID_PANEL1,
+                            wxDefaultPosition,
+                            wxDefaultSize,
                             wxSUNKEN_BORDER | wxTAB_TRAVERSAL );
     itemPanel->SetBackgroundColour( wxColour( 255, 255, 255 ) );
 
-    
+
     wxBoxSizer* itemSizerVertical = new wxBoxSizer( wxVERTICAL );
     itemPanel->SetSizer( itemSizerVertical );
 
-    
+
     // Header for servers
     wxStaticText* itemStaticTextTop = new wxStaticText;
     itemStaticTextTop->Create( itemPanel,
@@ -475,45 +475,45 @@ void frmMain::CreateControls()
     itemStaticTextTop->SetForegroundColour( wxColour( 0, 128, 0 ) );
 #if  wxCHECK_VERSION(2, 9, 5)
     itemStaticTextTop->SetFont( wxFont( wxFontInfo(10).FaceName("Tahoma").Bold() ) );
-#else    
+#else
     itemStaticTextTop->SetFont( wxFont( 10, wxSWISS, wxNORMAL, wxBOLD, false, wxT( "Tahoma" ) ) );
-#endif    
+#endif
     itemSizerVertical->Add( itemStaticTextTop, 0, wxALIGN_LEFT | wxALL, 5 );
 
     m_nodeTree = new wxTreeCtrl;
-    m_nodeTree->Create( itemPanel, 
-                            ID_TREECTRL, 
-                            wxDefaultPosition, 
-                            wxDefaultSize, 
-                            wxTR_HAS_BUTTONS | 
-                                wxTR_FULL_ROW_HIGHLIGHT | 
-                                wxTR_LINES_AT_ROOT | 
-                                wxTR_ROW_LINES | 
+    m_nodeTree->Create( itemPanel,
+                            ID_TREECTRL,
+                            wxDefaultPosition,
+                            wxDefaultSize,
+                            wxTR_HAS_BUTTONS |
+                                wxTR_FULL_ROW_HIGHLIGHT |
+                                wxTR_LINES_AT_ROOT |
+                                wxTR_ROW_LINES |
                                 wxTR_SINGLE );
     itemSizerVertical->Add( m_nodeTree, 10, wxGROW | wxALL, 2 );
 
     m_htmlInfoWnd = new wxHtmlWindow;
-    m_htmlInfoWnd->Create( itemPanel, 
-                            ID_HTMLWINDOW2, 
-                            wxDefaultPosition, 
-                            wxSize( -1, 150 ), 
-                            wxHW_SCROLLBAR_AUTO | 
-                                wxSUNKEN_BORDER | 
-                                wxHSCROLL | 
+    m_htmlInfoWnd->Create( itemPanel,
+                            ID_HTMLWINDOW2,
+                            wxDefaultPosition,
+                            wxSize( -1, 150 ),
+                            wxHW_SCROLLBAR_AUTO |
+                                wxSUNKEN_BORDER |
+                                wxHSCROLL |
                                 wxVSCROLL );
     m_htmlInfoWnd->SetPage( _( "<html><h4>Node information</h4>This area will contain extended information about known (discovered) nodes. This is work in progress so information is sparse (and may be wrong) at the moment. Click on a discovered node to display info about it in this area.</html>" ) );
     itemSizerVertical->Add( m_htmlInfoWnd, 0, wxGROW | wxALL, 5 );
-    
+
     // Connect events and objects
-    m_nodeTree->Connect( ID_TREECTRL, 
-                            wxEVT_LEFT_DOWN, 
-                            wxMouseEventHandler( frmMain::OnLeftDown ), 
-                            NULL, 
+    m_nodeTree->Connect( ID_TREECTRL,
+                            wxEVT_LEFT_DOWN,
+                            wxMouseEventHandler( frmMain::OnLeftDown ),
+                            NULL,
                             this );
-    m_nodeTree->Connect( ID_TREECTRL, 
-                            wxEVT_LEFT_DCLICK, 
-                            wxMouseEventHandler( frmMain::OnLeftDClick ), 
-                            NULL, 
+    m_nodeTree->Connect( ID_TREECTRL,
+                            wxEVT_LEFT_DCLICK,
+                            wxMouseEventHandler( frmMain::OnLeftDClick ),
+                            NULL,
                             this );
 
     wxImageList* itemImageList = new wxImageList( 16, 16, true, 5 );
@@ -521,19 +521,19 @@ void frmMain::CreateControls()
         wxImage icon0( Home_xpm );
         icon0.Rescale( 16, 16 );
         itemImageList->Add( icon0 );
-        
+
         wxImage icon1( Folder_Add_xpm );
         icon1.Rescale( 16, 16 );
         itemImageList->Add( icon1 );
-        
+
         wxImage icon2( Info_xpm );
         icon2.Rescale( 16, 16 );
         itemImageList->Add( icon2 );
-        
+
         wxImage icon3( copy_xpm );
         icon3.Rescale( 16, 16 );
         itemImageList->Add( icon3 );
-        
+
         wxImage icon4( copy_xpm );
         icon4.Rescale( 16, 16 );
         itemImageList->Add( icon4 );
@@ -542,40 +542,40 @@ void frmMain::CreateControls()
     m_nodeTree->AssignImageList( itemImageList );
 
     addDefaultContent();
-    
+
     // Create Logo
     /*
     m_pStaticBitmapLogo = new wxStaticBitmap;
     m_pStaticBitmapLogo->Create( itemPanel,
-                                    wxID_STATIC, 
+                                    wxID_STATIC,
                                     itemMainFrame->GetBitmapResource( wxT("../../../docs/vscp/logo/vscp_logo.jpg") ),
-                                    wxDefaultPosition, 
+                                    wxDefaultPosition,
                                     wxSize(151, 212),
                                     0 );
     m_pStaticBitmapLogo->SetBackgroundColour( wxColour( 255, 255, 255 ) );
     itemSizerVertical->Add( m_pStaticBitmapLogo,
-                            0, 
-                            wxALIGN_CENTER_HORIZONTAL | wxALL, 
+                            0,
+                            wxALIGN_CENTER_HORIZONTAL | wxALL,
                             0 );
     */
     wxString strVersion = _( VSCPD_COPYRIGHT );
     strVersion += _( " - " );
     strVersion += _( VSCPD_DISPLAY_VERSION );
     m_pitemStatusBar->SetStatusText( strVersion );
-    
+
     wxBitmap bitmap( itemMainFrame->GetBitmapResource( wxT("vscp_logo_xpm") ) );
     /*if ( bitmap.LoadFile("splash16.png", wxBITMAP_TYPE_PNG ) ) {
         wxSplashScreen* splash = new wxSplashScreen( GetBitmapResource( _("../../../docs/vscp/logo/vscp_logo.jpg") ),
                                                         wxSPLASH_CENTRE_ON_SCREEN|wxSPLASH_TIMEOUT,
-                                                        3000, 
-                                                        NULL, 
-                                                        -1, 
-                                                        wxDefaultPosition, 
+                                                        3000,
+                                                        NULL,
+                                                        -1,
+                                                        wxDefaultPosition,
                                                         wxDefaultSize,
                                                         wxBORDER_SIMPLE | wxSTAY_ON_TOP );
     }
-    wxYield(); 
-    */    
+    wxYield();
+    */
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -603,9 +603,9 @@ wxBitmap frmMain::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(vscp_logo_xpm);
         return bitmap;
     }
-  
+
     return wxNullBitmap;
-    
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -630,11 +630,11 @@ wxIcon frmMain::GetIconResource( const wxString& name )
 
 void frmMain::OnCloseWindow( wxCloseEvent& event )
 {
-    m_timerDiscovery->Stop();
+    //m_timerDiscovery->Stop();
 
     // Save frame size and position
     wxRect rc = GetRect();
-    g_Config.m_xposMainFrame = rc.x;  
+    g_Config.m_xposMainFrame = rc.x;
     g_Config.m_yposMainFrame = rc.y;
     g_Config.m_sizeMainFrameWidth = rc.width;
     g_Config.m_sizeMainFrameHeight = rc.height;
@@ -658,7 +658,7 @@ void frmMain::OnTreectrlSelChanged( wxTreeEvent& event )
 
         wxString str;
         wxString page;
-        
+
         if ( CLIENT_SERVER == item->m_type ) {
             page = _( "<h1>Hi-end Node Information</h1>" );
         }
@@ -721,10 +721,10 @@ void frmMain::OnTreectrlSelChanged( wxTreeEvent& event )
 
         }
 
-        m_htmlInfoWnd->SetPage( page ); 
+        m_htmlInfoWnd->SetPage( page );
     }
     */
-    
+
     event.Skip();
 }
 
@@ -806,14 +806,14 @@ void frmMain::OnMenuitemOpenVscpSessionClick( wxCommandEvent& event )
                                                             frmVSCPSession::ID_FRMVSCPSESSION,
                                                             SYMBOL_FRMVSCPSESSION_TITLE,
                                                             VSCPWORKS_SESSION_POSITION,
-                                                            wxSize( g_Config.m_sizeConfigurationFrameWidth, 
+                                                            wxSize( g_Config.m_sizeConfigurationFrameWidth,
                                                                         g_Config.m_sizeConfigurationFrameHeight ) );
 
             if ( NULL != subframe ) {
 
                 if ( 0 != selidx ) {
 
-                    both_interface *pBoth = 
+                    both_interface *pBoth =
                         (both_interface *)dlg.m_ctrlListInterfaces->GetClientData( selidx );
 
                     if ( NULL != pBoth ) {
@@ -822,7 +822,7 @@ void frmMain::OnMenuitemOpenVscpSessionClick( wxCommandEvent& event )
                         subframe->m_CtrlObject.m_interfaceType = pBoth->m_type;
 
                         if ( INTERFACE_CANAL == pBoth->m_type ) {
-                            subframe->SetTitle(_("VSCP Client Window Session (CANAL) - ") + 
+                            subframe->SetTitle(_("VSCP Client Window Session (CANAL) - ") +
                                 pBoth->m_pcanalif->m_strDescription );
                             subframe->m_CtrlObject.m_ifCANAL.m_strDescription = pBoth->m_pcanalif->m_strDescription;
                             subframe->m_CtrlObject.m_ifCANAL.m_strPath = pBoth->m_pcanalif->m_strPath;
@@ -835,18 +835,18 @@ void frmMain::OnMenuitemOpenVscpSessionClick( wxCommandEvent& event )
                             subframe->m_CtrlObject.m_ifVSCP.m_strHost = pBoth->m_pvscpif->m_strHost;
                             subframe->m_CtrlObject.m_ifVSCP.m_strUser = pBoth->m_pvscpif->m_strUser;
                             subframe->m_CtrlObject.m_ifVSCP.m_strPassword = pBoth->m_pvscpif->m_strPassword;
-                            memcpy( &subframe->m_CtrlObject.m_ifVSCP.m_vscpfilter, 
-                                &pBoth->m_pvscpif->m_vscpfilter, 
+                            memcpy( &subframe->m_CtrlObject.m_ifVSCP.m_vscpfilter,
+                                &pBoth->m_pvscpif->m_vscpfilter,
                                 sizeof( vscpEventFilter ) );
                         }
 
                         if ( INTERFACE_VSCP == subframe->m_CtrlObject.m_interfaceType ) {
 
                             // If server username is given and no password is entered we ask for it.
-                            if ( subframe->m_CtrlObject.m_ifVSCP.m_strPassword.IsEmpty() && 
+                            if ( subframe->m_CtrlObject.m_ifVSCP.m_strPassword.IsEmpty() &&
                                 !subframe->m_CtrlObject.m_ifVSCP.m_strUser.IsEmpty() ) {
-                                    subframe->m_CtrlObject.m_ifVSCP.m_strPassword = 
-                                        ::wxGetTextFromUser( _("Please enter password"), 
+                                    subframe->m_CtrlObject.m_ifVSCP.m_strPassword =
+                                        ::wxGetTextFromUser( _("Please enter password"),
                                         _("Connection Test") );
                             }
 
@@ -854,13 +854,13 @@ void frmMain::OnMenuitemOpenVscpSessionClick( wxCommandEvent& event )
 
                         // Start the worker threads
                         subframe->startWorkerThreads( subframe );
-/*                        
-                        subframe->SetSize(  -1, 
-                                            -1, 
-                                            g_Config.m_sizeSessionFrameWidth, 
+/*
+                        subframe->SetSize(  -1,
+                                            -1,
+                                            g_Config.m_sizeSessionFrameWidth,
                                             g_Config.m_sizeSessionFrameHeight );
-*/                        
-                       
+*/
+
                         // Show the VSCP session windows
                         subframe->Show( true );
                         subframe->Raise();
@@ -880,7 +880,7 @@ void frmMain::OnMenuitemOpenVscpSessionClick( wxCommandEvent& event )
         }
         else {
             wxMessageBox(_("You have to select an interface to connect to!"),
-                _("Open new VSCP session"), 
+                _("Open new VSCP session"),
                 wxICON_STOP );
         }
 
@@ -889,7 +889,7 @@ void frmMain::OnMenuitemOpenVscpSessionClick( wxCommandEvent& event )
 
     } // dialog
 
-    event.Skip( false );  
+    event.Skip( false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -915,14 +915,14 @@ void frmMain::OnMenuitemOpenConfigSessionClick( wxCommandEvent& event )
                                                                 frmDeviceConfig::ID_FRMDEVICECONFIG,
                                                                 SYMBOL_FRMDEVICECONFIG_TITLE,
                                                                 VSCPWORKS_DEVICECONFIG_POSITION,
-                                                                wxSize( g_Config.m_sizeConfigurationFrameWidth, 
+                                                                wxSize( g_Config.m_sizeConfigurationFrameWidth,
                                                                             g_Config.m_sizeConfigurationFrameHeight ) );
             if ( NULL != subframe ) {
 
-                both_interface *pBoth = 
+                both_interface *pBoth =
                     (both_interface *)dlg.m_ctrlListInterfaces->GetClientData( selidx );
 
-                if ( NULL != pBoth ) {  
+                if ( NULL != pBoth ) {
 
                     // set type so session window is aware of it
                     subframe->m_interfaceType = pBoth->m_type;
@@ -947,7 +947,7 @@ void frmMain::OnMenuitemOpenConfigSessionClick( wxCommandEvent& event )
                         subframe->m_comboNodeID->Append( strings );
 
                         subframe->m_comboNodeID->SetValue(_("0x01"));
-                        subframe->SetTitle(_("VSCP Configuration Window Session (CANAL) - ") +  
+                        subframe->SetTitle(_("VSCP Configuration Window Session (CANAL) - ") +
                                     pBoth->m_pcanalif->m_strDescription );
 
                         subframe->m_csw.setInterface( pBoth->m_pcanalif->m_strDescription,
@@ -968,7 +968,7 @@ void frmMain::OnMenuitemOpenConfigSessionClick( wxCommandEvent& event )
 
                             // Show the VSCP configuration windows
                             subframe->Show( true );
-                            
+
                         }
                         else {
                             // Failed to connect - terminate
@@ -991,17 +991,17 @@ void frmMain::OnMenuitemOpenConfigSessionClick( wxCommandEvent& event )
                             subframe->m_bLevel2->SetValue( false );
                         }
 
-                        subframe->SetTitle(_("VSCP Configuration Window Session (TCP/IP)- ") +  
+                        subframe->SetTitle(_("VSCP Configuration Window Session (TCP/IP)- ") +
                             pBoth->m_pvscpif->m_strDescription );
 
                         // If server username is given and no password is entered we ask for it.
-                        if ( pBoth->m_pvscpif->m_strPassword.IsEmpty() && 
+                        if ( pBoth->m_pvscpif->m_strPassword.IsEmpty() &&
                             !pBoth->m_pvscpif->m_strUser.IsEmpty() ) {
-                                pBoth->m_pvscpif->m_strPassword = 
-                                    ::wxGetTextFromUser( _("Please enter password"), 
+                                pBoth->m_pvscpif->m_strPassword =
+                                    ::wxGetTextFromUser( _("Please enter password"),
                                     _("Connection Test") );
                         }
-                        
+
                         // Save interface parameters
                         subframe->m_vscpif.m_strDescription = pBoth->m_pvscpif->m_strDescription;
                         subframe->m_vscpif.m_strHost = pBoth->m_pvscpif->m_strHost;
@@ -1009,8 +1009,8 @@ void frmMain::OnMenuitemOpenConfigSessionClick( wxCommandEvent& event )
                         subframe->m_vscpif.m_strPassword = pBoth->m_pvscpif->m_strPassword;
                         subframe->m_vscpif.m_strInterfaceName = pBoth->m_pvscpif->m_strInterfaceName;
                         memcpy( subframe->m_vscpif.m_GUID, pBoth->m_pvscpif->m_GUID, 16 );
-                        memcpy( &subframe->m_vscpif.m_vscpfilter, 
-                                    &pBoth->m_pvscpif->m_vscpfilter, 
+                        memcpy( &subframe->m_vscpif.m_vscpfilter,
+                                    &pBoth->m_pvscpif->m_vscpfilter,
                                     sizeof( vscpEventFilter ) );
 
                         // TCP/IP timings
@@ -1032,7 +1032,7 @@ void frmMain::OnMenuitemOpenConfigSessionClick( wxCommandEvent& event )
 
                             // Move window on top
                             subframe->Raise();
-                        
+
                         }
                         else {
                             // Failed to connect - terminate
@@ -1073,19 +1073,19 @@ void frmMain::OnMenuitemScanClick( wxCommandEvent& event )
     dlg.m_bShowUnconnectedMode = false;
 
     if ( wxID_OK == dlg.ShowModal() ) {
-       
+
         wxBusyCursor wait;
 
         if ( wxNOT_FOUND != ( selidx = dlg.m_ctrlListInterfaces->GetSelection() ) ) {
 
             frmScanforDevices *subframe = new frmScanforDevices( this );
-            
+
             if ( NULL != subframe ) {
 
-                both_interface *pBoth = 
+                both_interface *pBoth =
                     (both_interface *)dlg.m_ctrlListInterfaces->GetClientData( selidx );
 
-                if ( NULL != pBoth ) {  
+                if ( NULL != pBoth ) {
 
                     if ( INTERFACE_CANAL == pBoth->m_type ) {
 
@@ -1144,14 +1144,14 @@ void frmMain::OnMenuitemScanClick( wxCommandEvent& event )
                         //writeGuidArrayToString( GUID, str );
                         //subframe->m_comboNodeID->SetValue( str );
 
-                        subframe->SetTitle(_("VSCP Registers (TCP/IP)- ") +  
+                        subframe->SetTitle(_("VSCP Registers (TCP/IP)- ") +
                             pBoth->m_pvscpif->m_strDescription );
 
                         // If server username is given and no password is entered we ask for it.
-                        if ( pBoth->m_pvscpif->m_strPassword.IsEmpty() && 
+                        if ( pBoth->m_pvscpif->m_strPassword.IsEmpty() &&
                             !pBoth->m_pvscpif->m_strUser.IsEmpty() ) {
-                                pBoth->m_pvscpif->m_strPassword = 
-                                    ::wxGetTextFromUser( _("Please enter password"), 
+                                pBoth->m_pvscpif->m_strPassword =
+                                    ::wxGetTextFromUser( _("Please enter password"),
                                     _("Connection Test") );
                         }
 
@@ -1163,8 +1163,8 @@ void frmMain::OnMenuitemScanClick( wxCommandEvent& event )
                         subframe->m_vscpif.m_strPassword = pBoth->m_pvscpif->m_strPassword;
                         subframe->m_vscpif.m_strInterfaceName = pBoth->m_pvscpif->m_strInterfaceName;
                         memcpy( subframe->m_vscpif.m_GUID, pBoth->m_pvscpif->m_GUID, 16 );
-                        memcpy( &subframe->m_vscpif.m_vscpfilter, 
-                                    &pBoth->m_pvscpif->m_vscpfilter, 
+                        memcpy( &subframe->m_vscpif.m_vscpfilter,
+                                    &pBoth->m_pvscpif->m_vscpfilter,
                                     sizeof( vscpEventFilter ) );
 
                         // TCP/IP timings
@@ -1173,7 +1173,7 @@ void frmMain::OnMenuitemScanClick( wxCommandEvent& event )
                                                                           g_Config.m_TCPIPRegErrorTimeout );
                         subframe->m_csw.getTcpIpInterface()->setResponseTimeout( g_Config.m_TCPIP_ResponseTimeout );
                         subframe->m_csw.getTcpIpInterface()->setAfterCommandSleep( g_Config.m_TCPIP_SleepAfterCommand );
-                        
+
                         // Set information about interface we search on
                         str = _("Searching on interface: ");
                         str += pBoth->m_pvscpif->m_strInterfaceName;
@@ -1222,14 +1222,14 @@ void frmMain::OnMenuitemBootloaderWizardClick( wxCommandEvent& event )
     wizard->m_dll.setMaxRetries( g_Config.m_CANALRegMaxRetries );
     wizard->m_dll.setReadResendTimeout( g_Config.m_CANALRegResendTimeout );
     wizard->m_dll.setReadTimeout( g_Config.m_CANALRegErrorTimeout );
-    
+
     // TCP/IP timings
     wizard->m_tcpip.setRegisterOperationTiming( g_Config.m_TCPIPRegMaxRetries,
                                                       g_Config.m_TCPIPRegResendTimeout,
                                                       g_Config.m_TCPIPRegErrorTimeout );
     wizard->m_tcpip.setResponseTimeout( g_Config.m_TCPIP_ResponseTimeout );
     wizard->m_tcpip.setAfterCommandSleep( g_Config.m_TCPIP_SleepAfterCommand );
-    
+
     // Go
     wizard->Run();
 
@@ -1281,7 +1281,7 @@ void frmMain::OnMenuitemConfigurationClick( wxCommandEvent& event )
 
 ////////////////////////////////////////////////////////////////////////////////
 // OnMenuitemHelpClick
-// 
+//
 
 void frmMain::OnMenuitemHelpClick( wxCommandEvent& event )
 {
@@ -1293,7 +1293,7 @@ void frmMain::OnMenuitemHelpClick( wxCommandEvent& event )
 
 ////////////////////////////////////////////////////////////////////////////////
 // OnMenuitemFaqClick
-// 
+//
 
 void frmMain::OnMenuitemFaqClick( wxCommandEvent& event )
 {
@@ -1323,7 +1323,7 @@ void frmMain::OnMenuitemThanksClick( wxCommandEvent& event )
 {
     // vscp works main window / help / thanks [wiki-url]
     ::wxLaunchDefaultBrowser( _("http://www.vscp.org/wiki/doku.php/who_why_where/vscp_thanks"), wxBROWSER_NEW_WINDOW );
-    event.Skip( false ); 
+    event.Skip( false );
 }
 
 
@@ -1416,5 +1416,3 @@ void frmMain::OnMenuitemOpenDaemonVariableEditorClick( wxCommandEvent& event )
 
     event.Skip( false );
 }
-
-

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pandoc -s -t man vscpl2drv-logger.1.md -o vscpl2drv-logger.
-sudo cp vscpl2drv-logger. /usr/share/man/man1/
+pandoc -s -t man vscpworks.1.md -o vscpworks.1
+sudo cp vscpworks. /usr/share/man/man1/
 
 mandb
