@@ -12,7 +12,7 @@ VSCP general toolbox software for VSCP that runs on Linux and Windows. It has fu
 The manual for vscpworks is [here](https://grodansparadis.gitbooks.io/vscp-works/)
 
 ## How to install on Linux
-Either install using depian package in release section of this repository or build/install following the build instructions below.
+Either install using debian package in release section of this repository or build/install following the build instructions below.
 
 ## How to install on Windows
 Install using the windows installation script available in the release section och this repository.

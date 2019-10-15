@@ -5,4 +5,4 @@
 
 override_dh_auto_install:
 	strip vscpworks/vscpworks
-	install -D -m 0755 vscpworks/vscpworks $$(pwd)/debian/usr/bin/vscpworks
+	install -D -m 0755 vscpworks/vscpworks $$(pwd)/debian/vscpworks/usr/bin/vscpworks
