@@ -12,6 +12,7 @@ PACKAGE_VERSION=13.2.0
 # STATIC = yes if a static build is requested.
 STATIC=no
 VSCP_PROJ_BASE_DIR=/srv/vscp/
+DESTDIR=/srv/vscp/
 
 prefix = /usr/local
 exec_prefix = ${prefix}
@@ -280,8 +281,7 @@ vscpworks: $(VSCPWORKS_OBJECTS)
 
 install: all
 	$(STRIP) vscpworks
-	$(INSTALL_PROGRAM) -d $(bindir)
-	$(INSTALL_PROGRAM) vscpworks $(bindir)
+	$(INSTALL_PROGRAM) vscpworks ${DESTDIR}${prefix}
 
 uninstall:
 	rm -rf $(bindir)/vscpworks

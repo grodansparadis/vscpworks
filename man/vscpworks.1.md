@@ -20,16 +20,6 @@ The manual for vscpworks is [here](https://grodansparadis.gitbooks.io/vscp-works
 
 
 
-
-
-
-
-
-
-```
-
-
-
 # SEE ALSO
 
 `vscpd` (8).
