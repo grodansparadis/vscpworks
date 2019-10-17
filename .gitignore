@@ -31,8 +31,10 @@
 *.out
 *.app
 
+config.log
+config.status
+
 dist/*
 
 Makefile
 vscpworks/Makefile
-
