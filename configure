@@ -585,7 +585,7 @@ PACKAGE_STRING='vscpworks '13.2.0''
 PACKAGE_BUGREPORT='akhe@grodansparadis.com'
 PACKAGE_URL=''
 
-ac_unique_file="vscpworks/bootdevice.cpp"
+ac_unique_file="src/bootdevice.cpp"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -6604,7 +6604,7 @@ else
 fi
 
 
-PROJ_SUBDIRS="vscpworks "
+PROJ_SUBDIRS="src "
 
 
 
@@ -7161,7 +7161,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile m4/Makefile vscpworks/Makefile"
+ac_config_files="$ac_config_files Makefile m4/Makefile src/Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -7859,7 +7859,7 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "m4/Makefile") CONFIG_FILES="$CONFIG_FILES m4/Makefile" ;;
-    "vscpworks/Makefile") CONFIG_FILES="$CONFIG_FILES vscpworks/Makefile" ;;
+    "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

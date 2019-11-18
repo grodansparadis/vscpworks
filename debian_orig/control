@@ -11,6 +11,6 @@ Vcs-Git: https://github.com/grodansparadis/vscpl2drv-logger.git
 Package: vscpworks
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc6-dev, libexpat (>= 2),
- libssl-dev (>= 1.1), libwxgtk3.0-dev (>=3.0)
+ libssl-dev (>= 1.1), libwxgtk3.0-gtk3-0v5|libwxgtk3.0-dev (>=3.0)
 Description: This is a multi tool for VSCP & Friends. It allow for configuration,
  bootloading, search etc for remote devices.

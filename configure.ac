@@ -9,7 +9,7 @@ AC_INIT( [vscpworks], [package_version], [akhe@grodansparadis.com])
 AC_CONFIG_MACRO_DIR(m4)
 
 AC_PREREQ(2.57)
-AC_CONFIG_SRCDIR([vscpworks/bootdevice.cpp])
+AC_CONFIG_SRCDIR([src/bootdevice.cpp])
 AC_CONFIG_AUX_DIR(autotools)
 AC_CONFIG_HEADERS([config.h])
 
@@ -141,7 +141,7 @@ dnl
 dnl Project Sub directories
 dnl
 
-PROJ_SUBDIRS="vscpworks "
+PROJ_SUBDIRS="src "
 
 AC_SUBST(PROJ_SUBDIRS)
 
@@ -220,7 +220,7 @@ dnl
 
 AC_CONFIG_FILES([Makefile
          m4/Makefile
-         vscpworks/Makefile
+         src/Makefile
 ])
 
 dnl Generate makefiles
