@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=VSCP Works
+Comment=VSCP Works - The VSCP tool
+Exec=vscpworks
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Icon=/usr/share/pixmaps/vscpworks.png
+StartupNotify=true
+MimeType=x-scheme-handler/reg;
+Categories=GTK;GNOME;Utility;
