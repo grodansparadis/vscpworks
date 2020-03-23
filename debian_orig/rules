@@ -3,6 +3,6 @@
 %:
 	dh $@ --with autoreconf
 
-override_dh_auto_install:
-	strip src/vscpworks
-	install -D -m 0755 src/vscpworks $$(pwd)/debian/src/usr/bin/vscpworks
+#  override_dh_auto_install:
+#  	strip src/vscpworks
+#  	install -D -m 0755 src/vscpworks debian/src/usr/bin/vscpworks
