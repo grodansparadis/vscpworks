@@ -28,3 +28,23 @@ make install
 
 ## How to build on Windows
 tbd
+
+## Troubleshooting
+
+### Connecting over tcp/ip to >=14.0.0 vscpd
+
+The interface list has been changed from this version. Now the GUID's is used. To be compatible with  vscpworks which relay on the driver names a device driver name should end with "|" (without the quotes) to make the parsing work. Here is an example for vscpl1drv-can4vscp
+
+```xml
+<!-- The can4vscp driver -->
+<driver enable="true"
+        name="can4vscp|"
+        config="/dev/ttyUSB0"
+        flags="0"
+        translation="0x02"
+        path="/var/lib/vscp/drivers/level1/vscpl1drv-can4vscp.so"
+        guid="FF:FF:FF:FF:FF:FF:FF:F5:01:00:00:00:00:00:00:02"
+/>
+```
+
+Without this scab/config/boot will not work asthey should.
