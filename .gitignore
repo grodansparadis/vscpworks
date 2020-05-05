@@ -31,10 +31,15 @@
 *.out
 *.app
 
+config.h
 config.log
 config.status
 
 dist/*
 
 Makefile
+m4/Makefile
 vscpworks/Makefile
+
+src/vscpworks
+
