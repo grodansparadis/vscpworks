@@ -610,11 +610,12 @@ bool CBootDevice_VSCP::doFirmwareLoad( void )
     
     // Flash memory
     if ( m_bPrgData ) {
-        nFlashPackets = (m_maxFlashAddr - m_minFlashAddr) / 8;
-
-        if (0 != ((m_maxFlashAddr - m_minFlashAddr) % 8)) {
-            nFlashPackets++;
+        m_numBlocks = (m_maxFlashAddr - m_minFlashAddr) / m_blockSize;
+        if (0 != ((m_maxFlashAddr - m_minFlashAddr) % m_blockSize)) {
+            m_numBlocks++;
         }
+
+        nFlashPackets = m_numBlocks * m_blockSize  / 8;
     }
 
     long nTotalPackets = nFlashPackets;
@@ -631,6 +632,7 @@ bool CBootDevice_VSCP::doFirmwareLoad( void )
 
     // Initialize checksum
     addr = m_minFlashAddr;
+    m_pAddr = m_minFlashAddr;
 
     // * * * flash memory * * *
 
@@ -664,7 +666,6 @@ bool CBootDevice_VSCP::doFirmwareLoad( void )
             
             /* After a complete block, wait for the block data acknowledge. */
             if ( 0 == ( ( blk + 1 )  % ( m_blockSize / 8 ) ) ) {
-            
                 if ( USE_DLL_INTERFACE == m_type ) {
 
                     flag_crc = sendVSCPCommandSeqenceLevel1();
@@ -673,7 +674,6 @@ bool CBootDevice_VSCP::doFirmwareLoad( void )
 
                     flag_crc = sendVSCPCommandSeqenceLevel2();
                 }
-                
                 m_blockNumber++;
             }
 
@@ -868,7 +868,7 @@ bool CBootDevice_VSCP::sendVSCPBootCommand( uint8_t index )
 
         if (index == VSCP_TYPE_PROTOCOL_ACTIVATE_NEW_IMAGE) {
 
-            uint16_t crc16 = crcFast(&m_pbufPrg[ 0 ], m_numBlocks * m_blockSize);
+            uint16_t crc16 = crcFast(&m_pbufPrg[ m_minFlashAddr ], m_numBlocks * m_blockSize);
 
             vscpclass = VSCP_CLASS1_PROTOCOL;                   // Class
             vscptype = VSCP_TYPE_PROTOCOL_ACTIVATE_NEW_IMAGE;
