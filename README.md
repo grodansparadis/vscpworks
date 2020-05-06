@@ -1,4 +1,4 @@
-# vscphelperlib
+# vscpworks
 
 <img src="https://vscp.org/images/logo.png" width="100">
 
@@ -7,9 +7,16 @@
 
 VSCP general toolbox software for VSCP that runs on Linux and Windows. It has functionality to investigate events from remote devices, send events to remote devices, scan for remote devices, update firmware on remote devices and configure remote devices.
 
-**This software is deprecated**. It will not be updated. Instead a new tool is under development that will take over the role of vscphelperlib. While this tools is developed vscphelperlib will be maintained but no new functionality will be added.
+---
 
-The manual for vscphelperlib is [here](https://grodansparadis.gitbooks.io/vscp-works/)
+**I M P O R T A N T**
+
+---
+
+**This software is deprecated**. It will not be updated. Instead a new tool is under development that will take over the role of vscpworks. No new development will be done on this software.
+---
+
+The manual for vscpworks is [here](https://docs.vscp.org/#vscpworks)
 
 ## How to install on Linux
 Either install using debian package in release section of this repository or build/install following the build instructions below.
@@ -18,7 +25,7 @@ Either install using debian package in release section of this repository or bui
 Install using the windows installation script available in the release section och this repository.
 
 ## How to build on Linux
-vscphelperlib is built using a standard autoconf build
+vscpworks is built using a standard autoconf build
 
 ```bash
 ./configure
@@ -47,4 +54,4 @@ The interface list has been changed from this version. Now the GUID's is used. T
 />
 ```
 
-Without this scab/config/boot will not work asthey should.
+Without this scan/config/boot will not work as they should.
