@@ -17,6 +17,8 @@ jobs:
       uses: srt32/git-actions@v0.0.3
       with:
         args: git submodule update --init --recursive
+    - name: Install wxwidgets
+      run: sudo apt-get install libwxgtk3.0-gtk3-dev    
     - name: configure
       run: ./configure
     - name: make
