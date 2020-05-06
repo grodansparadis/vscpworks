@@ -51,3 +51,12 @@ distclean: clean
 deb:
 	@for d in $(PROJ_SUBDIRS); do (echo "====================================================" &&\
 	echo "Building deb in dir " $$d && echo "====================================================" && cd $$d && $(MAKE) deb ); done
+
+check:
+	@for d in $(PROJ_SUBDIRS); do (echo "====================================================" &&\
+	echo "Check in dir " $$d && echo "====================================================" && cd $$d && $(MAKE) check); done
+
+distcheck:
+	@for d in $(PROJ_SUBDIRS); do (echo "====================================================" &&\
+	echo "Distcheck in dir " $$d && echo "====================================================" && cd $$d && $(MAKE) distcheck); done
+

@@ -29,6 +29,9 @@ Install using the windows installation script available in the release section o
 vscpworks is built using a standard autoconf build
 
 ```bash
+cd vscpworks
+git submodule update --init --recursive
+sudo apt-get install libwxgtk3.0-gtk3-dev
 ./configure
 make
 make install
