@@ -298,7 +298,7 @@ deb:    all
 
 check:
 
-diskcheck:
+distcheck:
 
 clean:
 	rm -rf ./.deps ./.pch
