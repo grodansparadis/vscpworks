@@ -63,3 +63,6 @@ The interface list has been changed from this version. Now the GUID's is used. T
 ```
 
 Without this scan/config/boot will not work as they should.
+
+
+Copyright © 2000-2020 Ake Hedman, Grodans Paradis AB - MIT license.
