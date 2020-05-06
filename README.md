@@ -42,7 +42,8 @@ make install
 ```
 
 ## How to build on Windows
-tbd
+
+Use version [13.1.1.10](https://sourceforge.net/projects/m2m/files/software/13.1.1%20Aluminium/vscpworks-13.1.1.10-x64.exe/download) from here https://sourceforge.net/projects/m2m/ until the vscpworks++ version is ready or a build for the latest source is available.
 
 ## Troubleshooting
 
