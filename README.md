@@ -1,5 +1,9 @@
 # vscpworks
 
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![C/C++ CI](https://github.com/grodansparadis/vscp/workflows/C/C++%20CI/badge.svg)
+[![Release](https://img.shields.io/github/release/grodansparadis/vscp.svg)](https://github.com/grodansparadis/vscpworks/releases)
+
 <img src="https://vscp.org/images/logo.png" width="100">
 
 
