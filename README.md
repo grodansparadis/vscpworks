@@ -14,6 +14,7 @@ VSCP general toolbox software for VSCP that runs on Linux and Windows. It has fu
 ---
 
 **This software is deprecated**. It will not be updated. Instead a new tool is under development that will take over the role of vscpworks. No new development will be done on this software.
+
 ---
 
 The manual for vscpworks is [here](https://docs.vscp.org/#vscpworks)

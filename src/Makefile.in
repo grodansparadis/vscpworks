@@ -296,6 +296,10 @@ deb:    all
 	@mkdir -p ../../../dist
 	@mv *.deb ../../../dist
 
+check:
+
+diskcheck:
+
 clean:
 	rm -rf ./.deps ./.pch
 	rm -f ./*.o
