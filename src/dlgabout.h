@@ -53,6 +53,7 @@
 #include "dlgabout_symbols.h"
 #include "wx/html/htmlwin.h"
 
+
 /*!
  * Forward declarations
  */

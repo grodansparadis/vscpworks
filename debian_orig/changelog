@@ -1,4 +1,4 @@
-vscpworks (13.2.0-2) stable; urgency=medium
+vscpworks (%MAJOR-VERSION.%MINOR-VERSION.%RELEASE-VERSION-%RELEASE-DEBIAN) stable; urgency=medium
 
   * Initial release
 
