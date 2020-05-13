@@ -38,6 +38,9 @@
 
 #include <wx/string.h>
 
+#define PIC_BOOTLOADER_RESPONSE_TIMEOUT     2
+#define PIC_BOOTLOADER_RETRIES              6
+
 #define MEMREG_PRG_START                0x000000
 #define MEMREG_PRG_END                  0x2fffff
 
@@ -110,7 +113,7 @@
 #define ID_RESPONSE_GET_BASE_INFO   0x00001400  // Response for get info request.
 #define ID_RESPONSE_GET_DATA        0x00001500  // Response for get data request.
 
-// USed VSCP commands
+// Used VSCP commands
 #define VSCP_READ_REGISTER                  0x09
 #define VSCP_RW_RESPONSE                    0x0A
 #define VSCP_WRITE_REGISTER                 0x0B
@@ -124,7 +127,7 @@
 #define VSCP_REG_GUID5                      0xD5
 #define VSCP_REG_GUID7                      0xD7
 
-#define PIC_BOOTLOADER_RESPONSE_TIMEOUT     5
+
 
 typedef struct _bootclientItem {
     unsigned char m_nickname;       // Nickname for node

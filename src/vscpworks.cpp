@@ -369,6 +369,8 @@ void VscpworksApp::Init()
     g_Config.bGuidWritable = false;
     g_Config.m_manufacturerId = 0;
     g_Config.m_manufacturerSubId = 0;
+    
+    g_Config.m_picBootLoaderResponseTimeout = 10;
 
     /*
 

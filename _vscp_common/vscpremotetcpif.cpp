@@ -73,6 +73,8 @@ WX_DEFINE_LIST( EVENT_TX_QUEUE );
 
 VscpRemoteTcpIf::VscpRemoteTcpIf()
 {	
+    m_conn = NULL;
+    
     m_bModeReceiveLoop = false;
     m_responseTimeOut = TCPIP_DEFAULT_RESPONSE_TIMEOUT;
     m_innerResponseTimeout = TCPIP_DEFAULT_INNER_RESPONSE_TIMEOUT;
@@ -3785,7 +3787,7 @@ int VscpRemoteTcpIf::readLevel2Register( uint32_t reg,
         if ( 0 < doCmdDataAvailable() ) {	// Message available
 
             if ( VSCP_ERROR_SUCCESS == doCmdReceiveEx( &e ) ) {	// Valid event
-
+                fprintf(stderr,"class=%x type=%x \n",e.vscp_class,e.vscp_type);
                 // Check for correct reply event
 #ifdef DEBUG_LIB_VSCP_HELPER                
                 {
@@ -3996,10 +3998,10 @@ int VscpRemoteTcpIf::readLevel2Registers( uint32_t reg,
     // We should get 32 response frames back
     // a bit is set in response_flags for each frame
     unsigned long receive_flags = 0;
-    unsigned char nPages = count/4;
+    unsigned char nPages = count/4;         // Four bytes per frame
     unsigned char lastpageCnt = count%4;
     if ( lastpageCnt ) nPages++;
-    unsigned long allRcvValue = pow(2.0,nPages) - 1;
+    unsigned long allRcvValue = (unsigned long)pow(2.0,nPages) - 1;
 
     unsigned long resendTime = m_registerOpResendTimeout * (1+ nPages);
     wxLongLong startTime = ::wxGetLocalTimeMillis();
@@ -4052,13 +4054,13 @@ int VscpRemoteTcpIf::readLevel2Registers( uint32_t reg,
                         ( VSCP_TYPE_PROTOCOL_EXTENDED_PAGE_RESPONSE == e.vscp_type ) ) {   
                     
                     if ( pdestGUID->isSameGUID( e.GUID ) ) {            // From correct node?
-                    
+                        
                         if ( ( (page>>8) == e.data[ 1 ] ) && 
                                 ( (page&0x0ff) == e.data[ 2 ] )  ) {    // Requested page?
                         
                             // Mark frame as received
                             receive_flags |= ( 1 << e.data[ 0 ] );
-
+                            //fprintf(stderr,"Frame received  %02X %lX\n", e.data[ 0 ], receive_flags);    
                             if ( lastpageCnt && (count - 1) == e.data[ 0 ] ) {
                                 // Last frame
                                 for ( int i=0; i<lastpageCnt; i++ ) {
@@ -4134,6 +4136,7 @@ int VscpRemoteTcpIf::readLevel2Registers( uint32_t reg,
                 }
 #if wxUSE_GUI == 1
                 wxYield();
+                fprintf(stderr,".");
 #endif                
 
             } // valid event            
@@ -4150,7 +4153,7 @@ int VscpRemoteTcpIf::readLevel2Registers( uint32_t reg,
         else if ( ( ::wxGetLocalTimeMillis() - startTime ) > resendTime ) {
             // Send again
             doCmdSendEx( &e );
-            resendTime += m_registerOpResendTimeout * (1+ nPages);
+            resendTime += m_registerOpResendTimeout * (1 + nPages);
 #ifdef DEBUG_LIB_VSCP_HELPER
             wxLogDebug(_("readLevel2Registers: Resend "));
 #endif            
@@ -4158,6 +4161,7 @@ int VscpRemoteTcpIf::readLevel2Registers( uint32_t reg,
                 
 #if wxUSE_GUI == 1
         wxYield();
+        fprintf(stderr,"+");
 #else
         wxMilliSleep( 2 );
 #endif  

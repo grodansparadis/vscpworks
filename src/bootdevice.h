@@ -5,7 +5,7 @@
 // Modified by: 
 // Created:     16/12/2009 22:26:09
 // RCS-ID:      
-// Copyright:   (C) 2012-2018 
+// Copyright:   (C) 2012-2020 
 // Ake Hedman, Grodans Paradis AB, <akhe@grodansparadis.com>
 // Licence:     
 // This program is free software; you can redistribute it and/or
@@ -147,7 +147,8 @@ protected:
     CDllWrapper *m_pdll;
 
     /*!
-        GUID for tcp/ip node
+        GUID for tcp/ip node. For a level I event over level II 
+        this is interface + node id in LSB.
     */
     cguid m_guid;
 

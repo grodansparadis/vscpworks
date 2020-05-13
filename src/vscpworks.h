@@ -274,7 +274,7 @@ typedef struct {
     // TCP/IP communication settings
     uint32_t m_TCPIP_ResponseTimeout;           // General response time in seconds (for all communication)
     uint32_t m_TCPIP_SleepAfterCommand;         // Wait after a command has been sent
-    uint8_t	m_TCPIPRegMaxRetries;               // Max number of retries to read a register.
+    uint8_t  m_TCPIPRegMaxRetries;              // Max number of retries to read a register.
     uint32_t m_TCPIPRegResendTimeout;           // Timeout before register read retries
     uint32_t m_TCPIPRegErrorTimeout;            // Timeout before register read is considered and error
 
@@ -291,6 +291,9 @@ typedef struct {
     cguid m_manufacturerGuid;                   // Last used manufacturer GUID
     uint32_t m_manufacturerId;
     uint32_t m_manufacturerSubId;
+    
+    // PIC bootloader
+    uint16_t m_picBootLoaderResponseTimeout;    // PIC 1 bootloader response timeout in seconds
 
 } appConfiguration;
 

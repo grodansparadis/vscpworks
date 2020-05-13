@@ -1044,6 +1044,8 @@ void frmScanforDevices::getNodeInfo( wxCommandEvent& event )
                                                                         m_ifguid,
 												                        &destguid,
 												                        false ) ) {
+                progressDlg.Pulse(_("Registers read..."));
+
 	            uint8_t preg_url[33];
 		        memset( preg_url, 0, sizeof(preg_url));
 			    memcpy( preg_url, pElement->m_reg + 0xe0, 32 );
@@ -1051,7 +1053,7 @@ void frmScanforDevices::getNodeInfo( wxCommandEvent& event )
 				                            preg_url,
 					                        url,
 						                    &mdf );
-                
+                progressDlg.Pulse(_("MDF loaded read..."));
 			    pElement->m_html = vscp_getDeviceHtmlStatusInfo( pElement->m_reg, 
                                                                     bmdf ? &mdf : NULL );
 			    m_htmlWnd->SetPage(pElement->m_html);

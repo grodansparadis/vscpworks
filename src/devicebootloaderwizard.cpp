@@ -1028,7 +1028,7 @@ void WizardPageSetGUID::OnWizardPageChanging( wxWizardEvent& event )
             wxString strTitle;
 
             if ( VSCP_ERROR_SUCCESS ==
-                 pblw->m_tcpip.readLevel2Register( 0xd0,
+                pblw->m_tcpip.readLevel2Register( 0xd0,
                                                     0,      // page
                                                     &val,
                                                     pblw->m_ifguid,
@@ -1040,9 +1040,9 @@ void WizardPageSetGUID::OnWizardPageChanging( wxWizardEvent& event )
                 pblw->m_pgSelecAlgorithm->fetchAlgorithmFromMdf();
             }
             else {
-                wxMessageBox( _( "Device was not found! Check interface GUID + nodeid.\nThis may be no problem if the node is in bootloader mode already." ) );
+                wxMessageBox( _("Device was not found! Check interface GUID + nodeid.\nThis may be no problem if the node is in bootloader mode already.") );
                 strTitle = BOOT_LOADER_WIZARD_TITLE;
-                strTitle += _( " - Unknown device" );
+                strTitle += _(" - Unknown device");
                 pblw->SetTitle( strTitle );
             }
 
@@ -2173,11 +2173,11 @@ void WizardPageProgramDevice::OnButtonProgramClick( wxCommandEvent& event )
 
         pblw->m_tcpip.setResponseTimeout( 5 );  // Extend timeout time.
         
-        if ( pblw->m_bDeviceFound ) {
+        //if ( pblw->m_bDeviceFound ) {
             if ( !pblw->m_pBootCtrl->setDeviceInBootMode() ) {
                 wxMessageBox( _( "Failed to set device in boot mode! \nWill still try to load firmware." ) );
             }
-        }
+        //}
 
         if ( !pblw->m_pBootCtrl->doFirmwareLoad() ) {
             wxMessageBox( _( "Failed to load firmware code into device!" ) );
