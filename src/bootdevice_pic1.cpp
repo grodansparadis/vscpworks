@@ -349,12 +349,12 @@ CBootDevice_PIC1::showInfo(wxHtmlWindow* phtmlWnd)
 
     phtmlWnd->AppendToPage(_("<b>Start :</b><font color=\"#005CB9\">"));
 
-    strInfo.Printf(_("0x%08X"), m_minFlashAddr);
+    strInfo.Printf(_("0x%0l8X"), m_minFlashAddr);
     phtmlWnd->AppendToPage(strInfo);
 
     phtmlWnd->AppendToPage(_("</font><b> End :</b><font color=\"#005CB9\">"));
 
-    strInfo.Printf(_("0x%08X</font><br>"), m_maxFlashAddr);
+    strInfo.Printf(_("0x%0l8X</font><br>"), m_maxFlashAddr);
     phtmlWnd->AppendToPage(strInfo);
 
     if (m_bFlashMemory) {
@@ -374,12 +374,12 @@ CBootDevice_PIC1::showInfo(wxHtmlWindow* phtmlWnd)
 
     phtmlWnd->AppendToPage(_("<b>Start :</b>"));
 
-    strInfo.Printf(_("<font color=\"#005CB9\">0x%08X</font>"), m_minUserIDAddr);
+    strInfo.Printf(_("<font color=\"#005CB9\">0x%08lX</font>"), m_minUserIDAddr);
     phtmlWnd->AppendToPage(strInfo);
 
     phtmlWnd->AppendToPage(_("<b> End :</b>"));
 
-    strInfo.Printf(_("<font color=\"#005CB9\">0x%08X<br></font>"),
+    strInfo.Printf(_("<font color=\"#005CB9\">0x%08lX<br></font>"),
                    m_maxUserIDAddr);
     phtmlWnd->AppendToPage(strInfo);
 
@@ -400,12 +400,12 @@ CBootDevice_PIC1::showInfo(wxHtmlWindow* phtmlWnd)
 
     phtmlWnd->AppendToPage(_("<b>Start :</b>"));
 
-    strInfo.Printf(_("<font color=\"#005CB9\">0x%08X</font>"), m_minConfigAddr);
+    strInfo.Printf(_("<font color=\"#005CB9\">0x%08lX</font>"), m_minConfigAddr);
     phtmlWnd->AppendToPage(strInfo);
 
     phtmlWnd->AppendToPage(_("<b> End :</b>"));
 
-    strInfo.Printf(_("<font color=\"#005CB9\">0x%08X<br></font>"),
+    strInfo.Printf(_("<font color=\"#005CB9\">0x%08lX<br></font>"),
                    m_maxConfigAddr);
     phtmlWnd->AppendToPage(strInfo);
 
@@ -426,12 +426,12 @@ CBootDevice_PIC1::showInfo(wxHtmlWindow* phtmlWnd)
 
     phtmlWnd->AppendToPage(_("<B>Start :</b>"));
 
-    strInfo.Printf(_("<font color=\"#005CB9\">0x%08X</font>"), m_minEEPROMAddr);
+    strInfo.Printf(_("<font color=\"#005CB9\">0x%08lX</font>"), m_minEEPROMAddr);
     phtmlWnd->AppendToPage(strInfo);
 
     phtmlWnd->AppendToPage(_("<b> End :</b>"));
 
-    strInfo.Printf(_("<font color=\"#005CB9\">0x%08X<br></font>"),
+    strInfo.Printf(_("<font color=\"#005CB9\">0x%08lX<br></font>"),
                    m_maxEEPROMAddr);
     phtmlWnd->AppendToPage(strInfo);
 
@@ -827,13 +827,13 @@ CBootDevice_PIC1::doFirmwareLoad(void)
                            nTotalPackets,
                            NULL,
                            wxPD_AUTO_HIDE | wxPD_APP_MODAL | wxPD_CAN_ABORT |
-                             wxPD_ELAPSED_TIME | wxPD_REMAINING_TIME);
+                           wxPD_ELAPSED_TIME | wxPD_REMAINING_TIME);
 
     // Initialize checksum
     addr = m_minFlashAddr;
     if (!writeDeviceControlRegs(addr,
                                 MODE_WRT_UNLCK | MODE_AUTO_ERASE |
-                                  MODE_AUTO_INC | MODE_ACK,
+                                MODE_AUTO_INC | MODE_ACK,
                                 CMD_RST_CHKSM,
                                 0,
                                 0)) {
@@ -985,7 +985,7 @@ CBootDevice_PIC1::doFirmwareLoad(void)
 
     pDlg->Destroy();
 
-    // If OK we should take the the up out of bootloader mode
+    // If OK we should take the node out of bootloader mode
     if (rv) {
 
         wxProgressDialog* pDlg = new wxProgressDialog(
@@ -1172,9 +1172,19 @@ CBootDevice_PIC1::writeFrimwareSector(void)
     }
 
     if (USE_DLL_INTERFACE == m_type) {
+        fprintf(stderr,
+                    "writeFrimwareSector: %lX %02X %02X %02X %02X %02X %02X %02X %02X\n",
+                    msg.id,
+                    msg.data[0],msg.data[1],msg.data[2],msg.data[3],
+                    msg.data[4],msg.data[5],msg.data[6],msg.data[7]);
         m_pdll->doCmdSend(&msg);
     }
     else if (USE_TCPIP_INTERFACE == m_type) {
+        fprintf(stderr,
+                    "writeFrimwareSector: %04X %04X %02X %02X %02X %02X %02X %02X %02X %02X\n",
+                    event.vscp_class,event.vscp_type,
+                    msg.data[16],msg.data[17],msg.data[18],msg.data[19],
+                    msg.data[20],msg.data[21],msg.data[22],msg.data[23]);
         m_ptcpip->doCmdSendEx(&event);
     }
     else {
@@ -1254,6 +1264,11 @@ CBootDevice_PIC1::writeDeviceControlRegs(uint32_t addr,
         msg.data[5] = cmd;
         msg.data[6] = cmdData0;
         msg.data[7] = cmdData1;
+        fprintf(stderr,
+                    "writeDeviceControlRegs: %lX %02X %02X %02X %02X %02X %02X %02X %02X\n",
+                    msg.id,
+                    msg.data[0],msg.data[1],msg.data[2],msg.data[3],
+                    msg.data[4],msg.data[5],msg.data[6],msg.data[7]);
     }
     else if (USE_TCPIP_INTERFACE == m_type) {
         event.head       = 0;
@@ -1270,6 +1285,11 @@ CBootDevice_PIC1::writeDeviceControlRegs(uint32_t addr,
         event.data[21] = cmd;
         event.data[22] = cmdData0;
         event.data[23] = cmdData1;
+        fprintf(stderr,
+                    "writeDeviceControlRegs: Class=%04X Type=%04X %02X %02X %02X %02X %02X %02X %02X %02X\n",
+                    event.vscp_class,event.vscp_type,
+                    event.data[16],event.data[17],event.data[18],event.data[19],
+                    event.data[20],event.data[21],event.data[22],event.data[23]);
     }
     else {
         return false;
@@ -1406,15 +1426,12 @@ CBootDevice_PIC1::checkResponseLevel2(uint32_t id)
 
             if (VSCP_ERROR_SUCCESS == m_ptcpip->doCmdReceiveEx(&event)) {
                 fprintf(stderr,
-                        "checkResponseLevel2: class = %0x type=%0x id = %0x "
-                        "guid[15] = %0x\n",
+                        "checkResponseLevel2: class = %04x type=%04x id = %02x "
+                        "guid[15] = %02x size = %02X d=%02X,%02X,%02X,%02X,%02X,%02X,%02X,%02X \n",
                         event.vscp_class,
                         event.vscp_type,
                         ((id >> 8) & 0xff),
-                        event.GUID[15]);
-                fprintf(stderr,
-                        "checkResponseLevel2: size = %d "
-                        "d=%d,%d,%d,%d,%d,%d,%d,%d  \n",
+                        event.GUID[15],
                         event.sizeData,
                         event.data[0],
                         event.data[1],
@@ -1423,7 +1440,7 @@ CBootDevice_PIC1::checkResponseLevel2(uint32_t id)
                         event.data[4],
                         event.data[5],
                         event.data[6],
-                        event.data[7]);
+                        event.data[7] );
                 if ((VSCP_CLASS1_PROTOCOL == (event.vscp_class & 0xfdff)) &&
                     ((id>>8 & 0xff) == event.vscp_type) &&
                     ( m_guid.getLSB() == event.GUID[ 15 ] )) { 

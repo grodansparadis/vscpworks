@@ -845,7 +845,7 @@ void frmScanforDevices::OnButtonScanClick(wxCommandEvent& event)
 			uint8_t cnt = 0; 
 			while ( true ) {
             
-				progressDlg.Pulse( wxString::Format(_("Found %d"), found_list.size() ) );
+				progressDlg.Pulse( wxString::Format(_("Found %d"), (int)found_list.size() ) );
 
                 int n;
                 while ( n = ( m_csw.doCmdDataAvailable() ) ) {      // Message available

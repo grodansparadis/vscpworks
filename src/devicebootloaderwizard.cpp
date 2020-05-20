@@ -983,7 +983,7 @@ void WizardPageSetGUID::OnWizardPageChanging( wxWizardEvent& event )
 
     DeviceBootloaderwizard *pblw = ( DeviceBootloaderwizard * )GetParent();
 
-    // An node must be there to be allowed to continue
+    // A node should be present to be allowed to continue
     if ( event.GetDirection() ) {  // Forward
         
         // Deault bootloader algorithm
@@ -1374,10 +1374,18 @@ void WizardPageSelectBootloader::fetchAlgorithmFromMdf( void )
             return;
         }
 
+        wxString strTitle = BOOT_LOADER_WIZARD_TITLE;
+        strTitle += _( " - MDF URL read!" );
+        pblw->SetTitle( strTitle  );
+
         if ( !pblw->m_mdf.load( mdfurl ) ) {
             wxMessageBox( _( "Failed to load MDF!" ) );
             return;
         }
+
+        strTitle = BOOT_LOADER_WIZARD_TITLE;
+        strTitle += _( " - MDF loaded and parsed!" );
+        pblw->SetTitle( strTitle  );
 
         // MDF has been fetched -
         pblw->m_bMDFLoaded = true;

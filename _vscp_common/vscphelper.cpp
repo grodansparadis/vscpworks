@@ -1043,14 +1043,33 @@ bool vscp_getDataCodingString(const unsigned char *pCode,
 float vscp_getMeasurementAsFloat( const unsigned char *pCode, 
                                     unsigned char length)
 {
+    uint8_t buf[4];
     float *pfloat = NULL;
     float value = 0.0f;
+
+    memset( buf, 0, sizeof(buf) );
     
     // Check pointers
     if ( NULL == pCode ) return false;
     
     if (length >= 5) {
-        pfloat = (float*)(pCode + 1);
+
+        memcpy(buf, pCode+1, 4);
+
+        // Take care of byte order on little endian
+        if ( wxIsPlatformLittleEndian() ) {
+
+            uint8_t nbuf[4];                            
+            for ( int i=0; i<4; i++) {
+
+                nbuf[ i ] = buf[ 3-i ];
+            }
+
+            memcpy(buf,nbuf,4);
+                                        
+        }
+
+        pfloat = (float*)(buf);
         value = *pfloat;
         // TODO: please insert test for (!NaN || !INF)
     }

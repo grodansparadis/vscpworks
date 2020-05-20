@@ -3152,7 +3152,7 @@ bool VscpworksApp::readLevel1Register( CCanalSuperWrapper *pcsw,
             }
         }
         else {
-            wxMilliSleep( 1 );
+            wxMicroSleep( 1 );
         }
 
         // Check for read error timeout
@@ -3219,6 +3219,13 @@ bool VscpworksApp::writeLevel1Register( CCanalSuperWrapper *pcsw,
 
         if ( pcsw->doCmdDataAvailable() ) {                                     // Message available
             if ( CANAL_ERROR_SUCCESS == pcsw->doCmdReceive( &canalEvent ) ) {   // Valid event
+                
+                fprintf(stderr,
+                    "writeLevel1Register: %lX %02X %02X %02X %02X %02X %02X %02X %02X\n",
+                    canalEvent.id,
+                    canalEvent.data[0],canalEvent.data[1],canalEvent.data[2],canalEvent.data[3],
+                    canalEvent.data[4],canalEvent.data[5],canalEvent.data[6],canalEvent.data[7]);
+                
                 if ( (unsigned short)( canalEvent.id & 0xffff ) ==
                     ( 0x0a00 + nodeid ) ) {         // Read reply?
                         if ( canalEvent.data[ 0 ] == reg ) {                    // Requested register?
@@ -3236,7 +3243,7 @@ bool VscpworksApp::writeLevel1Register( CCanalSuperWrapper *pcsw,
             }
         }
         else {
-            wxMilliSleep( 1 );
+            wxMicroSleep( 1 );
         }
 
         if ( ( ::wxGetLocalTimeMillis() - startTime ) >
@@ -3371,8 +3378,6 @@ bool VscpworksApp::readLevel2Register( CCanalSuperWrapper *pcsw,
     event.timestamp = 0;
     pcsw->doCmdSend( &event );
 
-
-    //wxDateTime start = wxDateTime::Now();
     wxLongLong startTime = ::wxGetLocalTimeMillis();
 
     while ( true ) {
@@ -3439,9 +3444,10 @@ bool VscpworksApp::readLevel2Register( CCanalSuperWrapper *pcsw,
             } // valid event
         }
         else {
-            //wxMilliSleep( 1 );
+            wxMicroSleep( 10 );
         }
 
+        // Check for timeout
         if ( ( ::wxGetLocalTimeMillis() - startTime ) >
                     g_Config.m_CANALRegErrorTimeout ) {
             errors++;
@@ -3591,7 +3597,7 @@ bool VscpworksApp::writeLevel2Register( CCanalSuperWrapper *pcsw,
             }
         }
         else {
-            wxMilliSleep( 1 );
+            wxMicroSleep( 10 );
         }
 
         if ( ( ::wxGetLocalTimeMillis() - startTime ) >
