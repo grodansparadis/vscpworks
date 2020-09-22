@@ -473,7 +473,7 @@ void dlgAbout::CreateControls()
     wxString out;
     wxString versionstr( _(VSCPD_DISPLAY_VERSION) );
     out.Printf( html, 
-        "Version 12.2.1 - This software is deprecated"
+        "Version 12.2.2 - This software is deprecated"
         /*(const char *)versionstr.c_str()*/ );
   
     itemHtmlWindow3->SetPage( out );

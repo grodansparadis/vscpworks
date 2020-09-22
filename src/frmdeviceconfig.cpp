@@ -7277,6 +7277,7 @@ void frmDeviceConfig::saveAbstractionEdits( bool bShowDialog )
                         {
                             uint16_t val;
                             wxCommandEvent event;   // dummy
+
                             val = vscp_readStringValue( strValue );
 
                             m_gridRegisters->SelectRow( rowRegister );
@@ -7305,7 +7306,7 @@ void frmDeviceConfig::saveAbstractionEdits( bool bShowDialog )
                         {
                             long longVal;
                             strValue.ToLong( &longVal );
-                            wxINT32_SWAP_ON_LE( longVal );
+                            longVal = wxUINT32_SWAP_ON_LE( longVal );
                             
                             uint8_t *p = (uint8_t *)&longVal;
 
@@ -7328,7 +7329,7 @@ void frmDeviceConfig::saveAbstractionEdits( bool bShowDialog )
                         {
                             wxLongLong_t longlongVal;
                             strValue.ToLongLong( &longlongVal );
-                            wxUINT64_SWAP_ON_LE( longlongVal );
+                            longlongVal = wxUINT64_SWAP_ON_LE( longlongVal );
 
                             uint8_t *p = (uint8_t *)&longlongVal;
 
@@ -7353,9 +7354,9 @@ void frmDeviceConfig::saveAbstractionEdits( bool bShowDialog )
                             strValue.ToDouble( &doubleVal );
                             float floatVal = doubleVal;
 
-                            uint8_t *p = (uint8_t *)&floatVal;
-                            
-                            wxINT32_SWAP_ON_LE( (uint32_t)*p );
+                            uint8_t *p = (uint8_t *)&floatVal;                            
+                            uint32_t swap = wxUINT32_SWAP_ON_LE( *((uint32_t *)p) );
+                            p = (uint8_t *)&swap;
                             
                             for ( i=0; i<4; i++ ) {
                                 m_gridRegisters->SelectRow( rowRegister + i );
@@ -7377,7 +7378,8 @@ void frmDeviceConfig::saveAbstractionEdits( bool bShowDialog )
                             strValue.ToDouble(&doubleVal);
 
                             uint8_t *p = (uint8_t *)&doubleVal;
-                            wxUINT64_SWAP_ON_LE( doubleVal );
+                            uint64_t swap = wxUINT64_SWAP_ON_LE( *((uint64_t *)p) );
+                            p = (uint8_t *)&swap;
 
                             for ( i=0; i<8; i++ ) {
                                 m_gridRegisters->SelectRow( rowRegister + i );

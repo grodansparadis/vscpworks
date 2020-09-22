@@ -560,7 +560,7 @@ void frmMain::CreateControls()
     */
     wxString strVersion = _( VSCPD_COPYRIGHT );
     strVersion += _( " - " );
-    strVersion += _( VSCPD_DISPLAY_VERSION );
+    strVersion += _( "12.2.2" );
     m_pitemStatusBar->SetStatusText( strVersion );
 
     wxBitmap bitmap( itemMainFrame->GetBitmapResource( wxT("vscp_logo_xpm") ) );
