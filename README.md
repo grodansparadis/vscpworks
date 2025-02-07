@@ -6,11 +6,6 @@
 
 <img src="https://vscp.org/images/logo.png" width="100">
 
-
-**Available for**: Linux, Windows
-
-VSCP general toolbox software for VSCP that runs on Linux and Windows. It has functionality to investigate events from remote devices, send events to remote devices, scan for remote devices, update firmware on remote devices and configure remote devices.
-
 ---
 
 **I M P O R T A N T**
@@ -18,6 +13,16 @@ VSCP general toolbox software for VSCP that runs on Linux and Windows. It has fu
 ---
 
 **This software is deprecated**. It will not be updated. Instead a new tool is under development that will take over the role of vscpworks. No new development will be done on this software.
+
+See the new [VSCP Works +](https://github.com/grodansparadis/vscp-works-qt)
+
+---
+
+**Available for**: Linux, Windows
+
+VSCP general toolbox software for VSCP that runs on Linux and Windows. It has functionality to investigate events from remote devices, send events to remote devices, scan for remote devices, update firmware on remote devices and configure remote devices.
+
+
 
 ---
 
